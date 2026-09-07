@@ -1,0 +1,2440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#FFE000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Serene Health Proof of Concept</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="/favicon.webp" type="image/webp">
+
+    <style>
+        :root {
+            /* Brand yellows */
+            --yellow-bright: #FFE000;
+            --yellow-mid:    #FFF5B0;
+            --yellow-pale:   #FFFDE0;
+            --yellow-faint:  #FEFEF5;
+
+            /* Lavender cards */
+            --lavender:       #EDE6FF;
+            --lavender-hover: #E2D8FF;
+            --indigo-title:   #3730A3;
+            --indigo-label:   #5B21B6;
+            --indigo-badge-bg: rgba(55, 48, 163, 0.1);
+
+            /* Text */
+            --text-dark:   #111111;
+            --text-body:   #333333;
+            --text-muted:  #666666;
+            --text-light:  #888888;
+
+            /* Misc */
+            --white:       #ffffff;
+            --border-light: rgba(0,0,0,0.08);
+            --shadow-card: 0 2px 16px rgba(0,0,0,0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            overflow-wrap: break-word;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        img,
+        iframe {
+            max-width: 100%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Navigation ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 14px 0;
+            background: var(--yellow-bright);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        nav.nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        nav.nav-scrolled {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom-color: rgba(0,0,0,0.1);
+            box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            height: 26px;
+            width: auto;
+        }
+
+        .logo-wordmark {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+
+        /* ── Tab nav ── */
+        .nav-tabs {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .nav-tab {
+            background: transparent;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 100px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, opacity 0.2s;
+            letter-spacing: -0.005em;
+        }
+
+        .nav-tab:hover {
+            opacity: 0.65;
+        }
+
+        .nav-tab.active {
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            opacity: 1;
+        }
+
+        nav.nav-scrolled .nav-tab.active {
+            background: var(--text-dark);
+            color: #ffffff;
+        }
+
+        details.nav-tab-menu {
+            position: relative;
+        }
+
+        details.nav-tab-menu > summary.nav-tab {
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        details.nav-tab-menu > summary.nav-tab::-webkit-details-marker {
+            display: none;
+        }
+
+        details.nav-tab-menu > summary.nav-tab::after {
+            content: ' ▾';
+            font-size: 0.7em;
+            opacity: 0.7;
+        }
+
+        details.nav-tab-menu.is-current > summary.nav-tab,
+        details.nav-tab-menu[open] > summary.nav-tab {
+            background: rgba(0,0,0,0.08);
+        }
+
+        details.nav-tab-menu.is-current > summary.nav-tab.active {
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+        }
+
+        details.nav-tab-menu .nav-tab-menu-panel {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            min-width: 220px;
+            background: #fff;
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            box-shadow: 0 10px 36px rgba(0,0,0,0.12);
+            padding: 8px 0;
+            z-index: 150;
+        }
+
+        details.nav-tab-menu .nav-tab-menu-panel .nav-tab {
+            display: block;
+            width: 100%;
+            text-align: left;
+            border-radius: 0;
+            padding: 10px 16px;
+        }
+
+        details.nav-tab-menu .nav-tab-menu-panel .nav-tab.active {
+            background: var(--yellow-pale);
+            color: var(--text-dark);
+        }
+
+        /* ── Auth pill in the nav ── */
+        .nav-auth {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .nav-auth-greeting {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .nav-auth-btn {
+            padding: 7px 18px;
+            border-radius: 100px;
+            border: 1.5px solid var(--text-dark);
+            background: transparent;
+            color: var(--text-dark);
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .nav-auth-btn:hover {
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+        }
+
+        .nav-auth-btn.is-logged-in {
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+        }
+
+        .nav-auth-btn.is-logged-in:hover {
+            background: transparent;
+            color: var(--text-dark);
+        }
+
+        /* ── Auth modal ── */
+        .auth-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: authFadeIn 0.18s ease-out;
+        }
+
+        .auth-modal-backdrop[hidden] {
+            display: none;
+        }
+
+        .auth-modal {
+            position: relative;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+            animation: authSlideUp 0.22s ease-out;
+        }
+
+        .auth-modal-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .auth-modal-close:hover {
+            background: rgba(0, 0, 0, 0.06);
+            color: var(--text-dark);
+        }
+
+        .auth-modal-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+
+        .auth-modal-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .auth-field label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .auth-field input {
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-light);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: var(--white);
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .auth-field input:focus {
+            outline: none;
+            border-color: var(--text-dark);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+        }
+
+        .auth-error {
+            color: #b3261e;
+            font-size: 0.85rem;
+            background: rgba(179, 38, 30, 0.08);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin: 0;
+        }
+
+        .auth-error[hidden] {
+            display: none;
+        }
+
+        .auth-submit {
+            margin-top: 8px;
+            padding: 13px 20px;
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            border: none;
+            border-radius: 100px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .auth-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-role-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .auth-role-btn {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1.5px solid var(--border-light);
+            background: var(--white);
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s, transform 0.15s;
+        }
+
+        .auth-role-btn:hover {
+            border-color: var(--text-dark);
+            background: var(--yellow-pale);
+            transform: translateY(-1px);
+        }
+
+        .auth-modal[data-roles="patient"] .auth-role-btn:not([data-role="patient"]) {
+            display: none;
+        }
+
+        @keyframes authFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes authSlideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Hero Section ── */
+        .hero {
+            background: var(--yellow-bright);
+            padding-top: 100px;
+            padding-bottom: 60px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 860px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 14px;
+            background: rgba(0,0,0,0.08);
+            border-radius: 100px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--text-dark);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+
+        h1 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: clamp(2.8rem, 7vw, 5rem);
+            font-weight: 800;
+            line-height: 1.0;
+            margin-bottom: 24px;
+            letter-spacing: -0.03em;
+            color: var(--text-dark);
+        }
+
+        h1 .highlight-word {
+            text-decoration: underline;
+            text-decoration-thickness: 4px;
+            text-underline-offset: 6px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            max-width: 600px;
+            font-weight: 400;
+            line-height: 1.7;
+        }
+
+        /* ── General sections ── */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            color: var(--indigo-label);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        h2 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            margin-bottom: 14px;
+            letter-spacing: -0.025em;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 540px;
+            margin: 0 auto;
+            line-height: 1.65;
+        }
+
+        /* ── Tab panels (the dynamic center frame) ── */
+        .poc-frame {
+            min-height: 520px;
+        }
+
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Scope: Problem Statement card ── */
+        #scope {
+            background: var(--yellow-mid);
+        }
+
+        .problem-statement-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 48px;
+            max-width: 860px;
+            margin: 0 auto 40px;
+            box-shadow: var(--shadow-card);
+            border: 1px solid var(--border-light);
+        }
+
+        .problem-statement-card h2 {
+            font-size: 1.7rem;
+            margin-bottom: 20px;
+        }
+
+        .problem-statement-card p {
+            color: var(--text-body);
+            font-size: 0.975rem;
+            line-height: 1.75;
+        }
+
+        .scope-subheader {
+            text-align: center;
+            margin: 0 0 32px;
+        }
+
+        .scope-subheader h2 {
+            font-size: 1.7rem;
+            margin-bottom: 8px;
+        }
+
+        /* ── Scope: In-scope grid (lavender) ── */
+        .in-scope-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .scope-card {
+            background: var(--lavender);
+            border: none;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-card);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .scope-card:hover {
+            background: var(--lavender-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(55,48,163,0.12);
+        }
+
+        .scope-card-label {
+            font-size: 0.67rem;
+            font-weight: 700;
+            color: var(--indigo-label);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .scope-card h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--indigo-title);
+            letter-spacing: -0.02em;
+        }
+
+        .scope-card p {
+            color: var(--text-body);
+            font-size: 0.92rem;
+            line-height: 1.65;
+        }
+
+        .scope-card .card-section {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(55,48,163,0.12);
+        }
+
+        .scope-card .card-section-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            color: var(--indigo-label);
+            text-transform: uppercase;
+            letter-spacing: 0.13em;
+            margin-bottom: 6px;
+        }
+
+        .scope-card .card-criteria {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .scope-card .card-criteria li {
+            color: var(--text-body);
+            font-size: 0.875rem;
+            line-height: 1.55;
+            padding: 5px 0 5px 20px;
+            position: relative;
+        }
+
+        .scope-card .card-criteria li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--indigo-label);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .scope-card.scope-card-wide {
+            grid-column: 1 / -1;
+        }
+
+        /* ── Testing tabs (Computer & CX Agent): Live panel cards ── */
+        #computer,
+        #cx-agent {
+            background: var(--yellow-faint);
+        }
+
+        /* Pair layout used by the Computer and CX Agent tabs */
+        .tab-pair-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: stretch;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* Inside .tab-pair-grid the live-panel-card must NOT use subgrid
+           (subgrid was designed for .live-panel-wrapper's 3-row layout).
+           Override with a normal flex column so the head, video, and
+           actions sit naturally instead of being stretched into 3 rows. */
+        .tab-pair-grid .live-panel-card {
+            display: flex;
+            flex-direction: column;
+            grid-row: auto;
+            grid-template-rows: none;
+        }
+
+        /* Lavender placeholder-question card */
+        .qa-card {
+            background: var(--lavender);
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: var(--shadow-card);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-card:hover {
+            background: var(--lavender-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(55, 48, 163, 0.12);
+        }
+
+        .qa-card-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--indigo-title);
+            margin-bottom: 22px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .qa-card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .qa-card-list li {
+            color: var(--text-body);
+            font-size: 0.92rem;
+            line-height: 1.55;
+            padding: 14px 0 14px 26px;
+            border-bottom: 1px solid rgba(55, 48, 163, 0.1);
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            min-height: 48px;
+        }
+
+        .qa-card-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--indigo-label);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .qa-card-list li:last-child {
+            border-bottom: none;
+        }
+
+        .live-panel-wrapper {
+            max-width: 1080px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto auto auto;
+            column-gap: 24px;
+            row-gap: 0;
+        }
+
+        .live-panel-card {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: subgrid;
+            grid-row: span 3;
+        }
+
+
+        .live-panel-head {
+            padding: 24px 24px 10px;
+        }
+
+        .live-panel-label {
+            font-size: 0.67rem;
+            font-weight: 700;
+            color: var(--indigo-label);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+
+        .live-panel-title {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .live-panel-subtitle {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .live-preview {
+            margin: 14px 24px 0;
+            border-radius: 14px;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+
+        .live-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        .live-preview.live-preview--phone {
+            aspect-ratio: auto;
+            background: transparent;
+            border: none;
+            overflow: visible;
+            display: flex;
+            justify-content: center;
+            padding: 8px 0 4px;
+        }
+
+        .phone-frame {
+            width: 100%;
+            max-width: 320px;
+            background: #0b0b0b;
+            border-radius: 36px;
+            padding: 10px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+        }
+
+        .phone-screen {
+            background: #fff;
+            border-radius: 28px;
+            overflow: hidden;
+            min-height: 620px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .phone-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px 4px;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+
+        .phone-body { padding: 16px 18px 10px; flex: 1; }
+        .phone-body h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin: 0 0 6px;
+            color: #111;
+        }
+        .phone-kicker {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #9aa0a6;
+            margin-bottom: 16px;
+        }
+        .help-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #fff;
+            border: 1px solid #eef0f2;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 10px;
+            width: 100%;
+            font: inherit;
+            text-align: left;
+            color: inherit;
+        }
+        .help-card.is-action { cursor: pointer; }
+        .help-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .help-icon svg { width: 20px; height: 20px; }
+        .help-icon--call { background: #e8f1ff; color: #2f6bff; }
+        .help-icon--email { background: #e7f8ee; color: #1f9d55; }
+        .help-icon--chat { background: #fde8e8; color: #e11d48; }
+        .help-icon--health { background: #fff6d6; color: #eab308; }
+        .help-card strong { display: block; font-size: 0.94rem; font-weight: 700; color: #111; }
+        .help-card span { display: block; font-size: 0.78rem; color: #8b9198; margin-top: 2px; }
+        .phone-tabbar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid #eceff2;
+            padding: 8px 6px 16px;
+        }
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.64rem;
+            color: #9aa0a6;
+            font-weight: 600;
+        }
+        .tab-item.is-active { color: #111; }
+        .tab-item svg { width: 20px; height: 20px; }
+        .home-indicator {
+            position: absolute;
+            left: 50%;
+            bottom: 6px;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 4px;
+            border-radius: 100px;
+            background: #111;
+        }
+
+        .live-panel-actions {
+            padding: 16px 24px 24px;
+            margin-top: auto;
+        }
+
+        .live-panel-cta-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .live-panel-cta-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(0,0,0,0.2);
+        }
+
+        /* ── Success Criteria ── */
+        #criteria {
+            background: var(--yellow-pale);
+        }
+
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .criteria-card {
+            background: var(--lavender);
+            border: none;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: var(--shadow-card);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .criteria-card:hover {
+            background: var(--lavender-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(55,48,163,0.12);
+        }
+
+        .criteria-card-index {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--indigo-label);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .criteria-card h3 {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--indigo-title);
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+        }
+
+        .criteria-card p {
+            color: var(--text-body);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .criteria-target {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 7px;
+            margin-top: auto;
+            padding: 10px 14px;
+            min-height: 56px;
+            background: var(--indigo-badge-bg);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            color: var(--indigo-title);
+            align-self: stretch;
+        }
+
+        .pending-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #FEF3C7;
+            color: #92400e;
+            border: 1px solid rgba(146, 64, 14, 0.22);
+            vertical-align: middle;
+            margin-left: 6px;
+            white-space: nowrap;
+        }
+
+        .qa-card-list li .pending-tag {
+            margin-left: 8px;
+        }
+
+        .live-panel-cta-link.is-pending {
+            pointer-events: none;
+            opacity: 0.72;
+            cursor: not-allowed;
+        }
+
+        .criteria-card > p,
+        .criteria-card > .criteria-feedback {
+            margin-bottom: 16px;
+        }
+
+        .criteria-card > .criteria-feedback {
+            margin-top: 0;
+        }
+
+        .criteria-feedback {
+            list-style: none;
+            padding: 0;
+            margin: 14px 0 0;
+        }
+
+        .criteria-feedback li {
+            color: var(--text-body);
+            font-size: 0.85rem;
+            line-height: 1.55;
+            padding: 5px 0 5px 20px;
+            position: relative;
+        }
+
+        .criteria-feedback li::before {
+            content: '·';
+            position: absolute;
+            left: 4px;
+            color: var(--indigo-label);
+            font-weight: 800;
+        }
+
+        /* ── Timeline ── */
+        #timeline {
+            background: var(--yellow-mid);
+        }
+
+        .timeline-list {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .timeline-item {
+            background: var(--lavender);
+            border-radius: 16px;
+            padding: 22px 24px;
+            display: grid;
+            grid-template-columns: 110px 1fr auto;
+            gap: 24px;
+            align-items: center;
+            box-shadow: var(--shadow-card);
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        .timeline-item:hover {
+            background: var(--lavender-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(55,48,163,0.12);
+        }
+
+        .timeline-week {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--indigo-title);
+            background: var(--white);
+            padding: 8px 12px;
+            border-radius: 10px;
+            text-align: center;
+            letter-spacing: 0.02em;
+        }
+
+        .timeline-content {
+            color: var(--text-body);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .timeline-content strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .timeline-owner {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--indigo-label);
+            background: var(--indigo-badge-bg);
+            padding: 6px 10px;
+            border-radius: 8px;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        /* ── CTA Section ── */
+        .cta-section {
+            text-align: center;
+            background: var(--yellow-bright);
+            padding: 70px 0;
+            position: relative;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .cta-content p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            max-width: 460px;
+            margin: 0 auto 40px;
+            line-height: 1.65;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(0,0,0,0.2);
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--white);
+            padding: 36px 0;
+            border-top: 1px solid var(--border-light);
+            text-align: center;
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .footer-logo {
+            font-family: 'Bricolage Grotesque', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.01em;
+        }
+
+        .footer-logo span {
+            color: var(--indigo-title);
+        }
+
+        .footer-sub {
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+
+        /* ── Responsive ── */
+        /* Tablet & smaller: collapse criteria, soften hero/section padding */
+        @media (max-width: 968px) {
+            .criteria-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 88px;
+                padding-bottom: 48px;
+            }
+
+            .section {
+                padding: 48px 0;
+            }
+
+            .cta-section {
+                padding: 56px 0;
+            }
+
+            .timeline-item {
+                grid-template-columns: 90px 1fr;
+                grid-template-rows: auto auto;
+                gap: 14px 18px;
+            }
+
+            .timeline-owner {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+        }
+
+        /* Tablet portrait & smaller: testing cards stack so the videos stay watchable */
+        @media (max-width: 768px) {
+            .live-panel-wrapper {
+                grid-template-columns: 1fr;
+                grid-template-rows: none;
+                row-gap: 24px;
+            }
+
+            .live-panel-card {
+                display: flex;
+                flex-direction: column;
+                grid-row: auto;
+            }
+
+            .tab-pair-grid {
+                grid-template-columns: 1fr;
+                row-gap: 24px;
+            }
+        }
+
+        /* Phones: collapse the in-scope grid, restack the nav */
+        @media (max-width: 640px) {
+            .in-scope-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .scope-card.scope-card-wide {
+                grid-column: auto;
+            }
+
+            nav {
+                padding: 10px 0;
+            }
+
+            nav .container {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                grid-template-rows: auto auto;
+                gap: 8px 12px;
+                align-items: center;
+            }
+
+            .logo {
+                grid-column: 1;
+                grid-row: 1;
+                justify-content: flex-start;
+            }
+
+            .nav-auth {
+                grid-column: 2;
+                grid-row: 1;
+                justify-self: end;
+                gap: 8px;
+            }
+
+            .nav-auth-greeting {
+                display: none;
+            }
+
+            .nav-tabs {
+                grid-column: 1 / -1;
+                grid-row: 2;
+                justify-content: center;
+                gap: 4px;
+                flex-wrap: wrap;
+            }
+
+            .auth-modal {
+                padding: 28px 24px;
+            }
+
+            .auth-modal-title {
+                font-size: 1.4rem;
+            }
+
+            .nav-tab {
+                padding: 8px 12px;
+                font-size: 0.82rem;
+                line-height: 1.2;
+            }
+
+            .hero {
+                padding-top: 132px;
+                padding-bottom: 36px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.975rem;
+            }
+
+            .badge {
+                margin-bottom: 22px;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+            }
+
+            .section {
+                padding: 36px 0;
+            }
+
+            .section-header,
+            .scope-subheader {
+                margin-bottom: 28px;
+            }
+
+            .problem-statement-card {
+                padding: 28px 20px;
+            }
+
+            .problem-statement-card h2 {
+                font-size: 1.4rem;
+            }
+
+            .scope-card,
+            .criteria-card,
+            .qa-card {
+                padding: 24px;
+            }
+
+            .qa-card-title {
+                font-size: 1.3rem;
+                margin-bottom: 16px;
+            }
+
+            .live-panel-head {
+                padding: 20px 20px 8px;
+            }
+
+            .live-preview {
+                margin: 12px 20px 0;
+            }
+
+            .live-panel-actions {
+                padding: 14px 20px 20px;
+            }
+
+            .live-panel-cta-link,
+            .cta-button {
+                font-size: 0.78rem;
+                padding: 12px 22px;
+                letter-spacing: 0.04em;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 18px 20px;
+            }
+
+            .timeline-week {
+                justify-self: start;
+                padding: 6px 12px;
+            }
+
+            .cta-section {
+                padding: 44px 0;
+            }
+
+            .cta-content h2 {
+                font-size: 1.6rem;
+            }
+
+            .cta-content p {
+                font-size: 0.98rem;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+        }
+
+        /* Tiny phones (≤380px): tighten hero h1 and tabs so nothing brushes the edges */
+        @media (max-width: 380px) {
+            h1 {
+                font-size: 1.95rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.92rem;
+            }
+
+            .nav-tab {
+                padding: 6px 10px;
+                font-size: 0.78rem;
+            }
+
+            .logo-wordmark {
+                font-size: 0.82rem;
+            }
+
+            .badge {
+                font-size: 0.66rem;
+                padding: 4px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav id="main-nav">
+        <div class="container">
+            <div class="logo">
+                <img src="/favicon.webp" alt="Computer by DevRev" class="logo-img">
+                <span class="logo-wordmark">Computer, by DevRev</span>
+            </div>
+            <div class="nav-tabs" role="tablist">
+                <button type="button" class="nav-tab" role="tab" data-tab="scope" aria-controls="scope" aria-selected="true">Scope</button>
+                <button type="button" class="nav-tab" role="tab" data-tab="computer" aria-controls="computer" aria-selected="false">Computer</button>
+                <button type="button" class="nav-tab" role="tab" data-tab="cx-agent" aria-controls="cx-agent" aria-selected="false">CX Agent</button>
+                <details class="nav-tab-menu">
+                    <summary class="nav-tab">Support</summary>
+                    <div class="nav-tab-menu-panel">
+                        <button type="button" class="nav-tab" role="tab" data-tab="support-truecare" aria-controls="support-truecare" aria-selected="false">TrueCare Support</button>
+                        <button type="button" class="nav-tab" role="tab" data-tab="support-alliance" aria-controls="support-alliance" aria-selected="false">Alliance Support</button>
+                    </div>
+                </details>
+                <button type="button" class="nav-tab" role="tab" data-tab="criteria" aria-controls="criteria" aria-selected="false">Success Criteria</button>
+                <button type="button" class="nav-tab" role="tab" data-tab="timeline" aria-controls="timeline" aria-selected="false">Timeline</button>
+            </div>
+            <div class="nav-auth">
+                <span class="nav-auth-greeting" id="auth-greeting" hidden></span>
+                <button type="button" class="nav-auth-btn" id="auth-btn">Log in</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Proof of Concept</div>
+                <h1>
+                    <span class="highlight-word">Serene Health</span><br>
+                    Proof of Concept
+                </h1>
+                <p class="hero-subtitle">
+                    DevRev × Serene Health — TrueCare App and Alliance. Structured PoC for Computer (enterprise search and team assist), CX Agent on the TrueCare Help screen, then a guided working session on the GEM team instance.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic center frame -->
+    <main class="poc-frame" id="poc-frame">
+
+        <!-- Scope panel -->
+        <section class="section tab-panel" id="scope" role="tabpanel" aria-labelledby="scope">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Scope</div>
+                    <h2>Problem Statement &amp; Scope of Work</h2>
+                    <p class="section-subtitle">
+                        From the 25 Aug working session (Shaden, Thenu, Abid, Keith). Numeric targets and the Zoho feature matrix are still open.
+                    </p>
+                </div>
+
+                <div class="problem-statement-card">
+                    <h2>Problem Statement</h2>
+                    <p>
+                        Serene Health is evaluating DevRev as the AI platform across two brands: <strong>TrueCare</strong> (patient RPM app) and <strong>Alliance</strong> (HIE for hospitals, clinics, health plans, IPAs, and ACOs). Support today sits in Zoho. The client asked whether DevRev can replace Zoho feature by feature, and wants to trust-but-verify in a live workspace. Prior demos landed: similar-ticket search — “bring me all the issues that are related” — returning related work as knowledge. Next they want organization knowledge from Microsoft 365 email, OneDrive, and SharePoint, and to see Agent Studio as the way to build agents quickly (the Power Automate comparison), so this is an AI platform going forward, not a single bot.
+                    </p>
+                    <p style="margin-top:14px;">
+                        Ticket volumes, KB size, exact Zoho gap list, Alliance-specific workflows, and success metrics were not locked in this meeting. <span class="pending-tag">Pending</span>
+                    </p>
+                </div>
+
+                <div class="scope-subheader">
+                    <div class="section-label">In Scope</div>
+                    <h2>Three Use Cases</h2>
+                    <p class="section-subtitle">
+                        Confirmed in the meeting. Detail we do not have yet is marked pending.
+                    </p>
+                </div>
+
+                <div class="in-scope-grid">
+                    <div class="scope-card">
+                        <div class="scope-card-label">Use Case 1</div>
+                        <h3>CX Agent — TrueCare patients</h3>
+                        <p>
+                            PLuG on the TrueCare Help screen (Chat). Patients log in as a patient and chat from the app screenshot. Sample patient questions for the widget were mentioned but not listed. <span class="pending-tag">Pending</span>
+                        </p>
+                    </div>
+
+                    <div class="scope-card">
+                        <div class="scope-card-label">Use Case 2</div>
+                        <h3>Computer — similar tickets &amp; org knowledge</h3>
+                        <p>
+                            Executive and support users search related issues and turn ticket history into knowledge. Connect Microsoft 365 email, OneDrive, and SharePoint so organization knowledge sits beside tickets. Zoho feature-by-feature parity to test is not yet listed. <span class="pending-tag">Pending</span>
+                        </p>
+                    </div>
+
+                    <div class="scope-card scope-card-wide">
+                        <div class="scope-card-label">Use Case 3</div>
+                        <h3>Agent Studio as the AI platform</h3>
+                        <p>
+                            First solve a support use case, then prove agents can be built in the studio quickly (the “create an agent in an hour” / Power Automate comparison) so DevRev becomes the AI transformation platform — not one workflow.
+                        </p>
+                        <div class="card-section">
+                            <ul class="card-criteria">
+                                <li><strong>Similar tickets</strong> — Bring related issues back as knowledge (validated in prior demos).</li>
+                                <li><strong>Connectors</strong> — Microsoft 365 email, OneDrive, SharePoint as knowledge.</li>
+                                <li><strong>Guided access</strong> — Walk-through first, then GEM team instance (trust but verify). Temporary email. Then office hours to poke around and optionally build together on the call.</li>
+                                <li><strong>Alliance Support vs TrueCare Support playbooks</strong> — split is in the playground menu; process detail not scoped in this transcript. <span class="pending-tag">Pending</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Computer panel -->
+        <section class="section tab-panel" id="computer" role="tabpanel" aria-labelledby="computer">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Computer</div>
+                    <h2>Executive Users Enterprise search and Team Assist</h2>
+                    <p class="section-subtitle">
+                        Similar-ticket search and organization knowledge (Microsoft 365, OneDrive, SharePoint). Live Computer URL and remaining sample questions are pending.
+                    </p>
+                </div>
+
+                <div class="tab-pair-grid">
+                    <div class="qa-card">
+                        <h3 class="qa-card-title">What can Computer do for you?</h3>
+                        <ul class="qa-card-list">
+                            <li>Bring me all the issues that are related</li>
+                            <li>Search knowledge from OneDrive, SharePoint, and Microsoft 365 email</li>
+                            <li>Zoho feature-by-feature comparison query <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="live-panel-card">
+                        <div class="live-panel-head">
+                            <div class="live-panel-label">Live Demo</div>
+                            <h3 class="live-panel-title">Try Computer Live</h3>
+                            <p class="live-panel-subtitle">
+                                GEM team instance for the client to practice after a guided walk-through. Playground URL and access email are not in the transcript.
+                            </p>
+                        </div>
+                        <div class="live-preview">
+                            <iframe
+                                src="https://www.youtube.com/embed/Q_mLzHcz59I"
+                                title="Try Computer Live"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="live-panel-actions">
+                            <a class="live-panel-cta-link is-pending" href="#computer" aria-disabled="true">Launch Computer <span class="pending-tag">Pending</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CX Agent panel -->
+        <section class="section tab-panel" id="cx-agent" role="tabpanel" aria-labelledby="cx-agent">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">CX Agent</div>
+                    <h2>CX Agent for TrueCare patients</h2>
+                    <p class="section-subtitle">
+                        Help screen from the TrueCare app. Chat is the only patient login. Sample patient questions were not listed in the meeting.
+                    </p>
+                </div>
+
+                <div class="tab-pair-grid">
+                    <div class="qa-card">
+                        <h3 class="qa-card-title">What can the CX Agent do for your customers?</h3>
+                        <ul class="qa-card-list">
+                            <li>Chat from the TrueCare Help screen (patient login)</li>
+                            <li>Sample question 2 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 3 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="live-panel-card">
+                        <div class="live-panel-head">
+                            <div class="live-panel-label">TrueCare App</div>
+                            <h3 class="live-panel-title">Help / Support</h3>
+                            <p class="live-panel-subtitle">
+                                Patient Help screen. Chat is the PLuG install point — sign in as a Patient to try CX Agent.
+                            </p>
+                        </div>
+                        <div class="live-preview live-preview--phone">
+                            <div class="phone-frame" aria-label="TrueCare Help screen">
+                                <div class="phone-screen">
+                                    <div class="phone-status">
+                                        <span>9:41</span>
+                                        <span aria-hidden="true">●●● ●</span>
+                                    </div>
+                                    <div class="phone-body">
+                                        <h3>How we can help?</h3>
+                                        <p class="phone-kicker">Contact Us</p>
+                                        <div class="help-card">
+                                            <div class="help-icon help-icon--call" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.32 1.77.59 2.6a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.48-1.16a2 2 0 0 1 2.11-.45c.83.27 1.7.47 2.6.59A2 2 0 0 1 22 16.92z"/></svg>
+                                            </div>
+                                            <div>
+                                                <strong>Call</strong>
+                                                <span>+1 234 6789045</span>
+                                            </div>
+                                        </div>
+                                        <div class="help-card">
+                                            <div class="help-icon help-icon--email" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                                            </div>
+                                            <div>
+                                                <strong>Email</strong>
+                                                <span>help@truecare.org</span>
+                                            </div>
+                                        </div>
+                                        <button class="help-card is-action" id="truecare-chat" type="button">
+                                            <div class="help-icon help-icon--chat" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z"/></svg>
+                                            </div>
+                                            <div>
+                                                <strong>Chat</strong>
+                                                <span>Chat with us 24/7</span>
+                                            </div>
+                                        </button>
+                                        <div class="help-card">
+                                            <div class="help-icon help-icon--health" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4"/><path d="M12 17h.01"/></svg>
+                                            </div>
+                                            <div>
+                                                <strong>Health Questions</strong>
+                                                <span>Ask any health question 24/7</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <nav class="phone-tabbar" aria-label="TrueCare app tabs">
+                                        <div class="tab-item">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>
+                                            Home
+                                        </div>
+                                        <div class="tab-item">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="7" width="12" height="14" rx="3"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>
+                                            Devices
+                                        </div>
+                                        <div class="tab-item is-active">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 14v-2a7 7 0 0 1 14 0v2"/><path d="M8 21h8"/></svg>
+                                            Help
+                                        </div>
+                                        <div class="tab-item">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19c1.2-3 3.6-4.5 6.5-4.5S16.8 16 18 19"/></svg>
+                                            Profile
+                                        </div>
+                                    </nav>
+                                    <div class="home-indicator" aria-hidden="true"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="live-panel-actions">
+                            <a class="live-panel-cta-link" id="cx-agent-signin" href="#" role="button">Sign in to CX Agent</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TrueCare Support panel -->
+        <section class="section tab-panel" id="support-truecare" role="tabpanel" aria-labelledby="support-truecare">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Support</div>
+                    <h2>TrueCare Support</h2>
+                    <p class="section-subtitle">
+                        Agent workspace for TrueCare patient tickets from the in-app Help screen. Sample agent questions were not listed in the meeting.
+                    </p>
+                </div>
+
+                <div class="tab-pair-grid">
+                    <div class="qa-card">
+                        <h3 class="qa-card-title">What can Computer do for you?</h3>
+                        <ul class="qa-card-list">
+                            <li>Bring me all the issues that are related</li>
+                            <li>Sample question 2 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 3 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="live-panel-card">
+                        <div class="live-panel-head">
+                            <div class="live-panel-label">Live Demo</div>
+                            <h3 class="live-panel-title">Try Computer Live</h3>
+                            <p class="live-panel-subtitle">
+                                GEM team instance after the guided walk-through. Workspace URL is not in the transcript.
+                            </p>
+                        </div>
+                        <div class="live-preview">
+                            <iframe
+                                src="https://www.youtube.com/embed/Q_mLzHcz59I"
+                                title="Try Computer Live"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="live-panel-actions">
+                            <a class="live-panel-cta-link is-pending" href="#support-truecare" aria-disabled="true">Launch Computer <span class="pending-tag">Pending</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alliance Support panel -->
+        <section class="section tab-panel" id="support-alliance" role="tabpanel" aria-labelledby="support-alliance">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Support</div>
+                    <h2>Alliance Support</h2>
+                    <p class="section-subtitle">
+                        Internal desk for Alliance Health Information Exchange — hospitals, clinics, and care-coordination teams. Alliance-specific questions and workflows were not scoped in this transcript.
+                    </p>
+                </div>
+
+                <div class="tab-pair-grid">
+                    <div class="qa-card">
+                        <h3 class="qa-card-title">What can Computer do for you?</h3>
+                        <ul class="qa-card-list">
+                            <li>Sample question 1 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 2 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 3 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
+                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="live-panel-card">
+                        <div class="live-panel-head">
+                            <div class="live-panel-label">Live Demo</div>
+                            <h3 class="live-panel-title">Try Computer Live</h3>
+                            <p class="live-panel-subtitle">
+                                GEM team instance after the guided walk-through. Workspace URL is not in the transcript.
+                            </p>
+                        </div>
+                        <div class="live-preview">
+                            <iframe
+                                src="https://www.youtube.com/embed/Q_mLzHcz59I"
+                                title="Try Computer Live"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="live-panel-actions">
+                            <a class="live-panel-cta-link is-pending" href="#support-alliance" aria-disabled="true">Launch Computer <span class="pending-tag">Pending</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Criteria panel -->
+        <section class="section tab-panel" id="criteria" role="tabpanel" aria-labelledby="criteria">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Success Criteria</div>
+                    <h2>How We'll Measure Success</h2>
+                    <p class="section-subtitle">
+                        Outcomes named in the 25 Aug session. Numeric targets were not agreed — those stay pending.
+                    </p>
+                </div>
+
+                <div class="criteria-grid">
+                    <div class="criteria-card">
+                        <div class="criteria-card-index">01</div>
+                        <h3>Surface similar tickets as knowledge</h3>
+                        <p>
+                            Computer returns related issues — “bring me all the issues that are related” — the capability the client already liked in prior demos.
+                        </p>
+                        <span class="criteria-target">Target: Pending</span>
+                    </div>
+
+                    <div class="criteria-card">
+                        <div class="criteria-card-index">02</div>
+                        <h3>Organization knowledge via connectors</h3>
+                        <p>
+                            Microsoft 365 email, OneDrive, and SharePoint are connected so organization knowledge sits next to tickets.
+                        </p>
+                        <span class="criteria-target">Target: Pending</span>
+                    </div>
+
+                    <div class="criteria-card">
+                        <div class="criteria-card-index">03</div>
+                        <h3>Platform, not a single bot</h3>
+                        <p>
+                            Walk-through, then GEM team access (trust but verify). Show Agent Studio can stand in as the AI platform — including the “build an agent quickly” comparison to Power Automate — and whether DevRev can cover Zoho feature by feature.
+                        </p>
+                        <span class="criteria-target">Target: Pending · Zoho matrix Pending</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline panel -->
+        <section class="section tab-panel" id="timeline" role="tabpanel" aria-labelledby="timeline">
+            <div class="container">
+                <div class="section-header">
+                    <div class="section-label">Timeline</div>
+                    <h2>Next steps</h2>
+                    <p class="section-subtitle">
+                        From the 25 Aug call. Calendar hold and session length are still to be confirmed with the client.
+                    </p>
+                </div>
+
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <div class="timeline-week">25 Aug</div>
+                        <div class="timeline-content">
+                            <strong>On-site — TrueCare commercialization &amp; roadmap</strong> — Abid/Keith with the client. Scope this structured PoC in parallel.
+                        </div>
+                        <div class="timeline-owner">Serene + DevRev</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-week">Next session <span class="pending-tag">Pending</span></div>
+                        <div class="timeline-content">
+                            <strong>Working session / walk-through</strong> — short refresher of past demos, then agenda: similar tickets, M365/OneDrive/SharePoint knowledge, Agent Studio. Aim ~1:00 PM PT the following week (not Monday). Length 45–90 minutes depending on the client.
+                        </div>
+                        <div class="timeline-owner">DevRev + Serene</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-week">After walk-through</div>
+                        <div class="timeline-content">
+                            <strong>GEM team instance access</strong> — Thenu provisions a temporary email so the client can practice. Trust but verify: guided first, then self-serve.
+                        </div>
+                        <div class="timeline-owner">Thenu + DevRev</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-week">Office hours <span class="pending-tag">Pending</span></div>
+                        <div class="timeline-content">
+                            <strong>Client pokes around on the call</strong> — questions live; optionally build a simple agent together to show speed.
+                        </div>
+                        <div class="timeline-owner">DevRev + client</div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-week">Follow-up <span class="pending-tag">Pending</span></div>
+                        <div class="timeline-content">
+                            <strong>Requirements, budget, approval</strong> — further requirements and a budget number for approval were named, not specified.
+                        </div>
+                        <div class="timeline-owner">Serene + DevRev</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Having questions?</h2>
+                <p>
+                    Let us know and we will assist.
+                </p>
+                <a href="mailto:dario.soria@devrev.ai" class="cta-button">
+                    <span>Contact us</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-logo"><span>Computer</span>, by DevRev</div>
+                <div class="footer-sub">AI-powered service desk automation</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth modal -->
+    <div class="auth-modal-backdrop" id="auth-modal" hidden role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+        <div class="auth-modal" role="document">
+            <button type="button" class="auth-modal-close" id="auth-modal-close" aria-label="Close">×</button>
+            <h2 class="auth-modal-title" id="auth-modal-title">Sign in</h2>
+            <p class="auth-modal-subtitle" id="auth-modal-subtitle">Choose a role to continue.</p>
+            <div class="auth-role-list" id="auth-role-list">
+                <button type="button" class="auth-role-btn" data-role="patient">Log in as a Patient</button>
+                <button type="button" class="auth-role-btn" data-role="truecare-support">Log in as TrueCare Support</button>
+                <button type="button" class="auth-role-btn" data-role="alliance-support">Log in as Alliance Support</button>
+                <button type="button" class="auth-role-btn" data-role="executive">Log in as Executive</button>
+            </div>
+            <p class="auth-error" id="auth-error" hidden role="alert"></p>
+        </div>
+    </div>
+
+    <!-- Tab switching -->
+    <script>
+    (function() {
+      var tabs = document.querySelectorAll('.nav-tab[data-tab]');
+      var panels = document.querySelectorAll('.tab-panel');
+      var supportMenu = document.querySelector('details.nav-tab-menu');
+      var validIds = Array.prototype.map.call(tabs, function(t) { return t.dataset.tab; });
+
+      function activate(id, opts) {
+        opts = opts || {};
+        if (validIds.indexOf(id) === -1) id = validIds[0];
+        var supportActive = id === 'support-truecare' || id === 'support-alliance';
+
+        tabs.forEach(function(t) {
+          var isActive = t.dataset.tab === id;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        if (supportMenu) {
+          supportMenu.classList.toggle('is-current', supportActive);
+          var summary = supportMenu.querySelector('summary');
+          if (summary) summary.classList.toggle('active', supportActive);
+          if (supportActive) supportMenu.open = false;
+        }
+
+        panels.forEach(function(p) {
+          p.classList.toggle('active', p.id === id);
+        });
+
+        if (opts.updateHash !== false) {
+          var newHash = '#' + id;
+          if (window.location.hash !== newHash) {
+            history.replaceState(null, '', newHash);
+          }
+        }
+      }
+
+      tabs.forEach(function(t) {
+        t.addEventListener('click', function() {
+          activate(t.dataset.tab);
+        });
+      });
+
+      document.addEventListener('click', function(e) {
+        if (supportMenu && supportMenu.open && !supportMenu.contains(e.target)) {
+          supportMenu.open = false;
+        }
+      });
+
+      window.addEventListener('hashchange', function() {
+        var id = (window.location.hash || '').replace('#', '');
+        activate(id, { updateHash: false });
+      });
+
+      var initial = (window.location.hash || '').replace('#', '');
+      activate(initial || 'scope', { updateHash: !!initial });
+
+      window.activatePocTab = activate;
+    })();
+    </script>
+
+    <!-- Nav hide-on-scroll -->
+    <script>
+    (function() {
+      var nav = document.getElementById('main-nav');
+      var lastScrollY = 0;
+      var heroHeight = 0;
+
+      function updateHeroHeight() {
+        var hero = document.querySelector('.hero');
+        heroHeight = hero ? hero.offsetHeight : 300;
+      }
+
+      updateHeroHeight();
+      window.addEventListener('resize', updateHeroHeight);
+
+      window.addEventListener('scroll', function() {
+        var current = window.scrollY;
+
+        if (current > heroHeight - 80) {
+          nav.classList.add('nav-scrolled');
+        } else {
+          nav.classList.remove('nav-scrolled');
+        }
+
+        if (current > lastScrollY && current > 120) {
+          nav.classList.add('nav-hidden');
+        } else {
+          nav.classList.remove('nav-hidden');
+        }
+
+        lastScrollY = current;
+      }, { passive: true });
+    })();
+    </script>
+
+    <!--
+      Auth (client-side only — bypassable by anyone with devtools).
+      Hooks for future gating: when a session is active this script sets
+        body[data-auth="true"]
+        body[data-auth-email="<email>"]
+      Future code can gate the CX Agent with patterns like:
+        body:not([data-auth="true"]) .nav-tab[data-tab="cx-agent"] { display: none; }
+        or by intercepting tab activation in the tab-switching script above.
+
+      The auth IIFE also boots the DevRev CX Agent (plugSDK) widget in the
+      bottom-right corner whenever a session is active — on page load if the
+      user is already logged in, and right after a successful sign-in. The
+      "Sign in to CX Agent" button on the CX Agent tab opens this same modal
+      when the user is not yet logged in.
+    -->
+    <script>
+    (function() {
+      var ROLES = {
+        'patient': {
+          email: 'patient@truecare.demo',
+          name: 'Patient',
+          role: 'patient',
+          tab: 'cx-agent'
+        },
+        'truecare-support': {
+          email: 'truecare.support@serene.demo',
+          name: 'TrueCare Support',
+          role: 'truecare-support',
+          tab: 'support-truecare'
+        },
+        'alliance-support': {
+          email: 'alliance.support@serene.demo',
+          name: 'Alliance Support',
+          role: 'alliance-support',
+          tab: 'support-alliance'
+        },
+        'executive': {
+          email: 'executive@serene.demo',
+          name: 'Executive',
+          role: 'executive',
+          tab: 'computer'
+        }
+      };
+      var USERS = {};
+      Object.keys(ROLES).forEach(function(key) {
+        USERS[ROLES[key].email] = ROLES[key];
+      });
+      var STORAGE_KEY = 'serene-health-poc-auth';
+
+      // CX Agent (DevRev plugSDK) wiring.
+      // We use plugSDK's client-side `identity` flow (beta) instead of the
+      // server-side `auth-tokens.create` flow because the latter requires an
+      // Application Access Token (AAT) that must never be exposed to the
+      // browser. The value below is the plug's app_id (a reference to the
+      // plug_setting object — safe to expose), not an AAT.
+      var CX_APP_ID      = 'DvRvStPZG9uOmNvcmU6ZHZydi11cy0xOmRldm8vMW9FdU13R0lzczpwbHVnX3NldHRpbmcvMV9ffHxfXzIwMjYtMDQtMjkgMTg6MTI6NTUuMDE0Mzk2NTQ5ICswMDAwIFVUQw==xlxendsDvRv';
+      var CX_PLUG_SRC    = 'https://plug-platform.devrev.ai/static/plug.js';
+      var cxScriptLoaded = false;
+      var cxInitialized  = false;
+
+      var authBtn       = document.getElementById('auth-btn');
+      var greetingEl    = document.getElementById('auth-greeting');
+      var modal         = document.getElementById('auth-modal');
+      var closeBtn      = document.getElementById('auth-modal-close');
+      var roleList      = document.getElementById('auth-role-list');
+      var errorEl       = document.getElementById('auth-error');
+      var subtitleEl    = document.getElementById('auth-modal-subtitle');
+      var cxBtn         = document.getElementById('cx-agent-signin');
+      var chatBtn       = document.getElementById('truecare-chat');
+      var lastFocus     = null;
+      var modalCard     = modal ? modal.querySelector('.auth-modal') : null;
+
+      if (!authBtn || !modal || !roleList) return;
+
+      function getSession() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return null;
+          var session = JSON.parse(raw);
+          if (session && session.email && USERS[session.email]) {
+            return session;
+          }
+          return null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function applyAuthState(session) {
+        if (session) {
+          document.body.setAttribute('data-auth', 'true');
+          document.body.setAttribute('data-auth-email', session.email);
+          if (session.role) document.body.setAttribute('data-auth-role', session.role);
+          authBtn.textContent = 'Log out';
+          authBtn.classList.add('is-logged-in');
+          greetingEl.textContent = 'Hi, ' + session.name;
+          greetingEl.hidden = false;
+          if (cxBtn) cxBtn.textContent = 'Sign out of CX Agent';
+          loadCxAgentWidget(session.email);
+        } else {
+          document.body.removeAttribute('data-auth');
+          document.body.removeAttribute('data-auth-email');
+          document.body.removeAttribute('data-auth-role');
+          authBtn.textContent = 'Log in';
+          authBtn.classList.remove('is-logged-in');
+          greetingEl.textContent = '';
+          greetingEl.hidden = true;
+          if (cxBtn) cxBtn.textContent = 'Sign in to CX Agent';
+          shutdownCxAgentWidget();
+        }
+      }
+
+      function logout() {
+        try { localStorage.removeItem(STORAGE_KEY); } catch (err) {}
+        // Hard-reload instead of in-place teardown. plugSDK.shutdown()
+        // leaves the launcher / widget iframes in the DOM with a still-
+        // valid session token, and a subsequent plugSDK.init({newUser})
+        // creates a SECOND set of iframes alongside them — so logout +
+        // re-login as a different user ends up with two live plug
+        // sessions in parallel. DevRev's identify API is then called
+        // by both iframes (the old one with the previous user_ref, the
+        // new one with the current user_ref), and conversations / new
+        // tickets get attributed to whichever iframe handles the
+        // user's click — typically the older one. A hard reload is
+        // the only reliable way to guarantee plug is fully torn down
+        // before the next login.
+        location.reload();
+      }
+
+      // Loads (once) and initializes the DevRev CX Agent widget for the
+      // signed-in user using the client-side `identity` flow. Safe to call
+      // multiple times — the guard prevents duplicate inits. Errors reset the
+      // guards so a retry can succeed.
+      function loadCxAgentWidget(userEmail) {
+        if (cxInitialized) return;
+        cxInitialized = true;
+
+        var user = USERS[userEmail] || { name: userEmail };
+
+        // The plugSDK client-side `identity` flow requires a `user_ref` that
+        // is NOT already bound to a "verified" Rev User in the DevRev
+        // workspace. If the workspace already has a Rev User created via a
+        // server-side `session_token` flow / SSO / prior import with the
+        // same email, using the raw email as `user_ref` makes
+        // /internal/rev-users.identify return HTTP 409 ("input external ref
+        // is already associated with verified user."). plugSDK then aborts
+        // initialization and never injects the launcher iframe — the
+        // chatbot disappears silently after login. Namespacing the ref
+        // with a PoC-specific prefix sidesteps the collision; the real
+        // email still flows through user_traits so the agent sees the
+        // correct contact. (Same fix shipped earlier for the Altos Andes
+        // and Volkswagen subsites.)
+        var userRef = 'serene-poc-' + userEmail.toLowerCase();
+
+        function initPlug() {
+          if (!window.plugSDK || typeof window.plugSDK.init !== 'function') {
+            console.error('[CX Agent] plugSDK is not available.');
+            cxInitialized = false;
+            return;
+          }
+          // If a previous Plug instance exists (e.g. user logged out then in
+          // again as someone else without a page reload), tear it down first.
+          if (window.plugSDK.isPlugInitialized) {
+            try { window.plugSDK.shutdown(); } catch (e) {}
+          }
+          try {
+            // Client-side `identity` mode only supports user_ref + user_traits.
+            // account_ref / account_traits in this object cause the SDK's
+            // /internal/rev-users.identify call to return HTTP 400 — those
+            // belong to the server-side session_token flow, not this one.
+            window.plugSDK.init({
+              app_id: CX_APP_ID,
+              identity: {
+                user_ref: userRef,
+                user_traits: {
+                  email: userEmail,
+                  display_name: user.name
+                }
+              }
+            });
+          } catch (err) {
+            console.error('[CX Agent] plugSDK.init threw:', err);
+            cxInitialized = false;
+          }
+        }
+
+        if (window.plugSDK && typeof window.plugSDK.init === 'function') {
+          // Script was loaded earlier in this page session — re-init only.
+          initPlug();
+          return;
+        }
+
+        if (cxScriptLoaded) return;
+        cxScriptLoaded = true;
+        var script = document.createElement('script');
+        script.src = CX_PLUG_SRC;
+        script.type = 'text/javascript';
+        script.onload = initPlug;
+        script.onerror = function() {
+          console.error('[CX Agent] failed to load plug.js');
+          cxScriptLoaded = false;
+          cxInitialized = false;
+        };
+        document.head.appendChild(script);
+      }
+
+      // Best-effort shutdown so the widget hides on logout. The exact API
+      // varies between plugSDK versions, so try the common method names.
+      function shutdownCxAgentWidget() {
+        cxInitialized = false;
+        if (!window.plugSDK) return;
+        try {
+          if (typeof window.plugSDK.shutdown === 'function') {
+            window.plugSDK.shutdown();
+          } else if (typeof window.plugSDK.unmount === 'function') {
+            window.plugSDK.unmount();
+          } else if (typeof window.plugSDK.destroy === 'function') {
+            window.plugSDK.destroy();
+          }
+        } catch (e) {
+          // Ignore — the page-load gate (`cxInitialized`) is what matters
+          // for not double-initing on the next sign-in.
+        }
+      }
+
+      function showError(msg) {
+        errorEl.textContent = msg;
+        errorEl.hidden = false;
+      }
+
+      function clearError() {
+        errorEl.textContent = '';
+        errorEl.hidden = true;
+      }
+
+      function openModal(rolesFilter) {
+        clearError();
+        lastFocus = document.activeElement;
+        if (modalCard) {
+          if (rolesFilter) modalCard.setAttribute('data-roles', rolesFilter);
+          else modalCard.removeAttribute('data-roles');
+        }
+        if (subtitleEl) {
+          subtitleEl.textContent = rolesFilter === 'patient'
+            ? 'Log in as a Patient to use Chat.'
+            : 'Choose a role to continue.';
+        }
+        modal.hidden = false;
+        document.body.style.overflow = 'hidden';
+        var selector = '.auth-role-btn' + (rolesFilter ? '[data-role="' + rolesFilter + '"]' : '');
+        var firstRole = roleList.querySelector(selector);
+        setTimeout(function() {
+          if (firstRole) firstRole.focus();
+        }, 50);
+      }
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+        if (modalCard) modalCard.removeAttribute('data-roles');
+        if (subtitleEl) subtitleEl.textContent = 'Choose a role to continue.';
+        if (lastFocus && typeof lastFocus.focus === 'function') {
+          lastFocus.focus();
+        } else {
+          authBtn.focus();
+        }
+      }
+
+      function loginAsRole(roleKey) {
+        var user = ROLES[roleKey];
+        if (!user) {
+          showError('Unknown role.');
+          return;
+        }
+        var previous = getSession();
+        var session = {
+          email: user.email,
+          name: user.name,
+          role: user.role,
+          ts: Date.now()
+        };
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+        } catch (err) {}
+        if (previous && previous.role && previous.role !== user.role) {
+          location.reload();
+          return;
+        }
+        applyAuthState(session);
+        closeModal();
+        if (user.tab && typeof window.activatePocTab === 'function') {
+          window.activatePocTab(user.tab);
+        }
+      }
+
+      authBtn.addEventListener('click', function() {
+        if (document.body.getAttribute('data-auth') === 'true') {
+          logout();
+        } else {
+          openModal();
+        }
+      });
+
+      roleList.addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-role]');
+        if (!btn) return;
+        loginAsRole(btn.getAttribute('data-role'));
+      });
+
+      if (cxBtn) {
+        cxBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (document.body.getAttribute('data-auth') === 'true') {
+            logout();
+          } else {
+            openModal();
+          }
+        });
+      }
+
+      if (chatBtn) {
+        chatBtn.addEventListener('click', function() {
+          var session = getSession();
+          if (session && session.role === 'patient') return;
+          openModal('patient');
+        });
+      }
+
+      closeBtn.addEventListener('click', closeModal);
+
+      modal.addEventListener('click', function(e) {
+        // Close only when the click lands on the backdrop, not on the modal card
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+
+      applyAuthState(getSession());
+    })();
+    </script>
+
+</body>
+</html>

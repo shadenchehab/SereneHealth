@@ -1,0 +1,22 @@
+[general]
+
+host = "::"
+port = 8080
+root = "/public"
+
+log-level = "info"
+
+cache-control-headers = true
+compression = true
+
+page404 = "./404.html"
+page50x = "./50x.html"
+
+directory-listing = false
+redirect-trailing-slash = true
+compression-static = true
+threads-multiplier = 1
+grace-period = 0
+log-remote-address = false
+
+[advanced]
