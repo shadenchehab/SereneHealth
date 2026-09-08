@@ -941,6 +941,10 @@
             background: var(--yellow-faint);
         }
 
+        #cx-agent .cx-portal-header {
+            margin-top: 72px;
+        }
+
         /* Pair layout used by the Computer and CX Agent tabs */
         .tab-pair-grid {
             display: grid;
@@ -1842,9 +1846,9 @@
             <div class="nav-tabs" role="tablist">
                 <button type="button" class="nav-tab" role="tab" data-tab="scope" aria-controls="scope" aria-selected="true">Scope</button>
                 <button type="button" class="nav-tab" role="tab" data-tab="computer" aria-controls="computer" aria-selected="false">Computer</button>
-                <button type="button" class="nav-tab" role="tab" data-tab="cx-agent" aria-controls="cx-agent" aria-selected="false">CX Agent</button>
+                <button type="button" class="nav-tab" role="tab" data-tab="cx-agent" aria-controls="cx-agent" aria-selected="false">Portals and CX Agent</button>
                 <details class="nav-tab-menu">
-                    <summary class="nav-tab">Support</summary>
+                    <summary class="nav-tab">Support App</summary>
                     <div class="nav-tab-menu-panel">
                         <button type="button" class="nav-tab" role="tab" data-tab="support-truecare" aria-controls="support-truecare" aria-selected="false">TrueCare Support</button>
                         <button type="button" class="nav-tab" role="tab" data-tab="support-alliance" aria-controls="support-alliance" aria-selected="false">Alliance Support</button>
@@ -1918,7 +1922,7 @@
                         <div class="scope-card-label">Use Case 3</div>
                         <h3>Zoho replacement — Support</h3>
                         <p>
-                            Support app for <strong>TrueCare</strong> and <strong>Alliance</strong> teams replace SaaS with AI based support solution for better intake, routing, and resolution.
+                            Support app for <strong>TrueCare</strong> and <strong>Alliance</strong> teams replace limited SaaS with a flexible AI based support solution that adapts to your business needs for better intake, routing, and resolution.
                         </p>
                     </div>
                 </div>
@@ -2072,6 +2076,51 @@
                         </div>
                         <div class="live-panel-actions">
                             <a class="live-panel-cta-link" id="cx-agent-signin" href="#" role="button">Sign in as a patient</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header cx-portal-header">
+                    <div class="section-label">Customer Support Portal</div>
+                    <h2>Customer Support Portal</h2>
+                    <p class="section-subtitle">
+                        Support Customer Portal for Serene Health respecting both brands.
+                    </p>
+                </div>
+
+                <div class="tab-pair-grid">
+                    <div class="qa-card">
+                        <h3 class="qa-card-title">What can customers do in the portal?</h3>
+                        <ul class="qa-card-list">
+                            <li>Browse brand-specific knowledge collections</li>
+                            <li>Find TrueCare device pairing and RPM help</li>
+                            <li>Open Alliance support directories for HIE teams</li>
+                            <li>Self-serve common questions before contacting support</li>
+                            <li>Stay in the right brand experience for each portal</li>
+                        </ul>
+                    </div>
+
+                    <div class="live-panel-card">
+                        <div class="live-panel-head">
+                            <div class="live-panel-label">Live Portals</div>
+                            <h3 class="live-panel-title">Try Customer Support Portal</h3>
+                            <p class="live-panel-subtitle">
+                                Open the brand portal for TrueCare or Alliance — each respects its own collections and experience.
+                            </p>
+                        </div>
+                        <div class="live-panel-actions">
+                            <a
+                                class="live-panel-cta-link"
+                                href="https://support.devrev.ai/en-US/truecare--serenehealth-poc/directories"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >TrueCare Support Portal</a>
+                            <a
+                                class="live-panel-cta-link"
+                                href="https://support.devrev.ai/en-US/alliancehie--serenehealth-poc/directories"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >Alliance Support Portal</a>
                         </div>
                     </div>
                 </div>
@@ -2237,7 +2286,7 @@
                 <p>
                     Let us know and we will assist.
                 </p>
-                <a href="mailto:dario.soria@devrev.ai" class="cta-button">
+                <a href="mailto:shaden.chehab@devrev.ai" class="cta-button">
                     <span>Contact us</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
