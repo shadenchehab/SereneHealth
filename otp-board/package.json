@@ -1,0 +1,14 @@
+{
+  "name": "connectadevrev-otp-board",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "kv:create": "wrangler kv namespace create OTP_KV",
+    "secret:access": "wrangler secret put ACCESS_KEY"
+  },
+  "devDependencies": {
+    "wrangler": "^4.34.0"
+  }
+}

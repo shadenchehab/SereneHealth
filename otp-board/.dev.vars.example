@@ -1,0 +1,3 @@
+# Local only — copy to .dev.vars (gitignored)
+ACCESS_KEY=replace-with-long-random-string
+FORWARD_TO=devrevpoc@gmail.com

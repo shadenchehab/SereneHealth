@@ -1,0 +1,16 @@
+name = "connectadevrev-otp-board"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+# Create with: npx wrangler kv namespace create OTP_KV
+# Then paste the id below.
+[[kv_namespaces]]
+binding = "OTP_KV"
+id = "3619a64dd7f5485c9b0ab72cb9b6e2ad"
+
+[vars]
+FORWARD_TO = "devrevpoc@gmail.com"
+
+# Set secret (do not put real key here):
+#   npx wrangler secret put ACCESS_KEY

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Sign in</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: #fff;
+      color: #111;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    form {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    label {
+      font-size: 0.85rem;
+      color: #444;
+    }
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 0;
+      border-radius: 6px;
+      background: #111;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #333; }
+    .err {
+      color: #b00020;
+      font-size: 0.85rem;
+      min-height: 1.2em;
+    }
+  </style>
+  <script src="/poc-gate.js"></script>
+  <script>
+    if (window.PocGate && PocGate.isAuthed()) {
+      location.replace('/');
+    }
+  </script>
+</head>
+<body>
+  <form id="login-form" autocomplete="on">
+    <div>
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <p class="err" id="err" aria-live="polite"></p>
+    <button type="submit">Sign in</button>
+  </form>
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var u = document.getElementById('username').value;
+      var p = document.getElementById('password').value;
+      var err = document.getElementById('err');
+      if (PocGate.login(u, p)) {
+        var next = new URLSearchParams(location.search).get('next') || '/';
+        location.replace(next);
+      } else {
+        err.textContent = 'Invalid username or password';
+      }
+    });
+  </script>
+</body>
+</html>

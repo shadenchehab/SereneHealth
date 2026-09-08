@@ -11,6 +11,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" href="/favicon.webp" type="image/webp">
+    <script src="/poc-gate.js"></script>
+    <script>
+      // Hide PoC until site gate passes (blank login at /login.html)
+      document.documentElement.style.visibility = 'hidden';
+      if (window.PocGate) {
+        if (!PocGate.isAuthed()) {
+          var next = encodeURIComponent(location.pathname + location.search + location.hash);
+          location.replace('/login.html?next=' + next);
+        } else {
+          document.documentElement.style.visibility = '';
+        }
+      }
+    </script>
 
     <style>
         :root {
@@ -260,6 +273,30 @@
         }
 
         .nav-auth-btn.is-logged-in:hover {
+            background: transparent;
+            color: var(--text-dark);
+        }
+
+        .nav-otp-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 16px;
+            border-radius: 100px;
+            border: 1.5px solid var(--text-dark);
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        .nav-otp-btn:hover {
             background: transparent;
             color: var(--text-dark);
         }
@@ -993,7 +1030,7 @@
 
         .criteria-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
 
@@ -1071,6 +1108,18 @@
             vertical-align: middle;
             margin-left: 6px;
             white-space: nowrap;
+        }
+
+        .pending-tag.later {
+            background: #EDE9FE;
+            color: #5B21B6;
+            border-color: rgba(91, 33, 182, 0.22);
+        }
+
+        .pending-tag.from-product {
+            background: #E0F2FE;
+            color: #075985;
+            border-color: rgba(7, 89, 133, 0.22);
         }
 
         .qa-card-list li .pending-tag {
@@ -1340,6 +1389,12 @@
                 grid-row: 1;
                 justify-self: end;
                 gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            .nav-otp-btn {
+                font-size: 0.7rem;
+                padding: 6px 12px;
             }
 
             .nav-auth-greeting {
@@ -1514,6 +1569,7 @@
                 <button type="button" class="nav-tab" role="tab" data-tab="timeline" aria-controls="timeline" aria-selected="false">Timeline</button>
             </div>
             <div class="nav-auth">
+                <a class="nav-otp-btn" id="otp-btn" href="#" target="_blank" rel="noopener noreferrer">Get OTP</a>
                 <span class="nav-auth-greeting" id="auth-greeting" hidden></span>
                 <button type="button" class="nav-auth-btn" id="auth-btn">Log in</button>
             </div>
@@ -1553,10 +1609,10 @@
                 <div class="problem-statement-card">
                     <h2>Problem Statement</h2>
                     <p>
-                        Serene Health is evaluating DevRev as the AI platform across two brands: <strong>TrueCare</strong> (patient RPM app) and <strong>Alliance</strong> (HIE for hospitals, clinics, health plans, IPAs, and ACOs). Support today sits in Zoho. The client asked whether DevRev can replace Zoho feature by feature, and wants to trust-but-verify in a live workspace. Prior demos landed: similar-ticket search — “bring me all the issues that are related” — returning related work as knowledge. Next they want organization knowledge from Microsoft 365 email, OneDrive, and SharePoint, and to see Agent Studio as the way to build agents quickly (the Power Automate comparison), so this is an AI platform going forward, not a single bot.
+                        Serene Health is evaluating DevRev as the AI platform across two brands: <strong>TrueCare</strong> (patient RPM app — Omron Bluetooth vitals) and <strong>Alliance</strong> (provider / HIE platform). Support today sits in Zoho. The client asked whether DevRev can replace Zoho feature by feature, and wants to trust-but-verify in a live workspace. Prior demos landed: similar-ticket search — “bring me all the issues that are related” — returning related work as knowledge. Next they want organization knowledge from Microsoft 365 email, OneDrive, SharePoint, and Jira, and to see Agent Studio as the way to build agents quickly (the Power Automate comparison), so this is an AI platform going forward, not a single bot.
                     </p>
                     <p style="margin-top:14px;">
-                        Ticket volumes, KB size, exact Zoho gap list, Alliance-specific workflows, and success metrics were not locked in this meeting. <span class="pending-tag">Pending</span>
+                        The original landing CX use case (still in this playground): patients and TrueCare Support use a ~33-page Omron / Bluetooth pairing knowledge base — Help → Chat on the TrueCare app, no PHI, no app-code change. Care-coordinator visit summaries, vital alerts to family, and Alliance HIE ticket playbooks were discussed earlier or inferred from the product; they are not the Aug 25 working-session agenda. Ticket volumes and numeric success targets were not locked. <span class="pending-tag">Pending</span>
                     </p>
                 </div>
 
@@ -1573,7 +1629,7 @@
                         <div class="scope-card-label">Use Case 1</div>
                         <h3>CX Agent — TrueCare patients</h3>
                         <p>
-                            PLuG on the TrueCare Help screen (Chat). Patients log in as a patient and chat from the app screenshot. Sample patient questions for the widget were mentioned but not listed. <span class="pending-tag">Pending</span>
+                            PLuG on the TrueCare Help screen (Chat only; patient login). Knowledge is the Omron / Bluetooth pairing guide used by Hosway’s helpdesk today: connect a market Bluetooth BP monitor to TrueCare on iPhone or Android, supported models, common errors. Keep it KB-only for this POC — no live permission API, no PHI, no mobile-app code change.
                         </p>
                     </div>
 
@@ -1581,7 +1637,7 @@
                         <div class="scope-card-label">Use Case 2</div>
                         <h3>Computer — similar tickets &amp; org knowledge</h3>
                         <p>
-                            Executive and support users search related issues and turn ticket history into knowledge. Connect Microsoft 365 email, OneDrive, and SharePoint so organization knowledge sits beside tickets. Zoho feature-by-feature parity to test is not yet listed. <span class="pending-tag">Pending</span>
+                            Executive and support users search related issues and turn ticket history into knowledge. Connect Microsoft 365 email, OneDrive, SharePoint, and Jira (already scripted on the GEM team instance). Zoho feature-by-feature parity to test is still a client question, not a committed integration for this session. <span class="pending-tag">Pending</span>
                         </p>
                     </div>
 
@@ -1594,9 +1650,10 @@
                         <div class="card-section">
                             <ul class="card-criteria">
                                 <li><strong>Similar tickets</strong> — Bring related issues back as knowledge (validated in prior demos).</li>
-                                <li><strong>Connectors</strong> — Microsoft 365 email, OneDrive, SharePoint as knowledge.</li>
+                                <li><strong>Connectors</strong> — Microsoft 365 email, OneDrive, SharePoint, and Jira as knowledge (GEM team instance already has OneDrive + Jira scripts).</li>
                                 <li><strong>Guided access</strong> — Walk-through first, then GEM team instance (trust but verify). Temporary email. Then office hours to poke around and optionally build together on the call.</li>
-                                <li><strong>Alliance Support vs TrueCare Support playbooks</strong> — split is in the playground menu; process detail not scoped in this transcript. <span class="pending-tag">Pending</span></li>
+                                <li><strong>Later, not this working session</strong> — Care-coordinator CCM call summary from vitals/Postgres; critical-reading alerts to care team and family (email/SMS). Abid flagged dashboard insights as too involved for the first show. <span class="pending-tag later">Later</span></li>
+                                <li><strong>Alliance Support vs TrueCare Support playbooks</strong> — split is in the playground menu. TrueCare tickets come from the Omron helpdesk script. Alliance HIE tickets were not named in meetings; examples below are from the Alliance product. <span class="pending-tag">Pending</span></li>
                             </ul>
                         </div>
                     </div>
@@ -1611,7 +1668,7 @@
                     <div class="section-label">Computer</div>
                     <h2>Executive Users Enterprise search and Team Assist</h2>
                     <p class="section-subtitle">
-                        Similar-ticket search and organization knowledge (Microsoft 365, OneDrive, SharePoint). Live Computer URL and remaining sample questions are pending.
+                        Similar-ticket search and organization knowledge (Microsoft 365, OneDrive, SharePoint, Jira). Agent Studio vs Power Automate. Live Computer URL is pending.
                     </p>
                 </div>
 
@@ -1620,10 +1677,10 @@
                         <h3 class="qa-card-title">What can Computer do for you?</h3>
                         <ul class="qa-card-list">
                             <li>Bring me all the issues that are related</li>
-                            <li>Search knowledge from OneDrive, SharePoint, and Microsoft 365 email</li>
-                            <li>Zoho feature-by-feature comparison query <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                            <li>Search knowledge from OneDrive, SharePoint, Microsoft 365 email, and Jira</li>
+                            <li>Show me how we create an agent in Agent Studio (vs Power Automate)</li>
+                            <li>Can DevRev cover this Zoho feature? <span class="pending-tag">Pending — matrix</span></li>
+                            <li>Summarize this patient’s vitals before the weekly CCM call <span class="pending-tag later">Later</span></li>
                         </ul>
                     </div>
 
@@ -1658,7 +1715,7 @@
                     <div class="section-label">CX Agent</div>
                     <h2>CX Agent for TrueCare patients</h2>
                     <p class="section-subtitle">
-                        Help screen from the TrueCare app. Chat is the only patient login. Sample patient questions were not listed in the meeting.
+                        Help → Chat on the TrueCare app. Knowledge is the Omron / Bluetooth pairing guide (same script Hosway’s helpdesk uses on the phone).
                     </p>
                 </div>
 
@@ -1666,11 +1723,11 @@
                     <div class="qa-card">
                         <h3 class="qa-card-title">What can the CX Agent do for your customers?</h3>
                         <ul class="qa-card-list">
-                            <li>Chat from the TrueCare Help screen (patient login)</li>
-                            <li>Sample question 2 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 3 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                            <li>How can I connect my Bluetooth blood pressure monitor to TrueCare?</li>
+                            <li>Which Omron devices does TrueCare support?</li>
+                            <li>Pairing is failing — I can’t sync my readings</li>
+                            <li>How do I pair Omron on iPhone vs Android in TrueCare (not the Omron app)?</li>
+                            <li>What are the common Bluetooth connection errors?</li>
                         </ul>
                     </div>
 
@@ -1766,7 +1823,7 @@
                     <div class="section-label">Support</div>
                     <h2>TrueCare Support</h2>
                     <p class="section-subtitle">
-                        Agent workspace for TrueCare patient tickets from the in-app Help screen. Sample agent questions were not listed in the meeting.
+                        Internal TrueCare helpdesk. Same Omron / Bluetooth script given to Hosway: if a patient calls “I cannot connect my Omron,” the agent walks the script — and Computer can pull similar tickets.
                     </p>
                 </div>
 
@@ -1774,11 +1831,11 @@
                     <div class="qa-card">
                         <h3 class="qa-card-title">What can Computer do for you?</h3>
                         <ul class="qa-card-list">
-                            <li>Bring me all the issues that are related</li>
-                            <li>Sample question 2 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 3 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                            <li>Patient called: cannot connect Omron device — walk me through the script</li>
+                            <li>Which Omron models do we support?</li>
+                            <li>Bring me all similar pairing / Bluetooth tickets</li>
+                            <li>What are the common errors connecting a Bluetooth BP monitor to TrueCare?</li>
+                            <li>How do pairing steps differ on iPhone vs Android?</li>
                         </ul>
                     </div>
 
@@ -1813,7 +1870,7 @@
                     <div class="section-label">Support</div>
                     <h2>Alliance Support</h2>
                     <p class="section-subtitle">
-                        Internal desk for Alliance Health Information Exchange — hospitals, clinics, and care-coordination teams. Alliance-specific questions and workflows were not scoped in this transcript.
+                        Provider HIE users (hospitals, clinics, plans, IPAs, ACOs). Meetings name Alliance as the second platform but do not list ticket types. These two examples are from the Alliance product, not the transcripts.
                     </p>
                 </div>
 
@@ -1821,8 +1878,8 @@
                     <div class="qa-card">
                         <h3 class="qa-card-title">What can Computer do for you?</h3>
                         <ul class="qa-card-list">
-                            <li>Sample question 1 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 2 <span class="pending-tag">Pending</span></li>
+                            <li>Health Cloud chart is missing medications after the hospital EHR update <span class="pending-tag from-product">From product</span></li>
+                            <li>Custom HEDIS / RAF / MACRA measures don’t match our health-system goals <span class="pending-tag from-product">From product</span></li>
                             <li>Sample question 3 <span class="pending-tag">Pending</span></li>
                             <li>Sample question 4 <span class="pending-tag">Pending</span></li>
                             <li>Sample question 5 <span class="pending-tag">Pending</span></li>
@@ -1878,7 +1935,7 @@
                         <div class="criteria-card-index">02</div>
                         <h3>Organization knowledge via connectors</h3>
                         <p>
-                            Microsoft 365 email, OneDrive, and SharePoint are connected so organization knowledge sits next to tickets.
+                            Microsoft 365 email, OneDrive, SharePoint, and Jira are connected so organization knowledge sits next to tickets.
                         </p>
                         <span class="criteria-target">Target: Pending</span>
                     </div>
@@ -1890,6 +1947,15 @@
                             Walk-through, then GEM team access (trust but verify). Show Agent Studio can stand in as the AI platform — including the “build an agent quickly” comparison to Power Automate — and whether DevRev can cover Zoho feature by feature.
                         </p>
                         <span class="criteria-target">Target: Pending · Zoho matrix Pending</span>
+                    </div>
+
+                    <div class="criteria-card">
+                        <div class="criteria-card-index">04</div>
+                        <h3>TrueCare CX Agent answers Omron how-tos</h3>
+                        <p>
+                            Patient Chat on Help uses the ~33-page pairing KB (iPhone vs Android, supported models, common errors). Same script internally for TrueCare Support. No PHI, no app-code change. Pilot is a small set of patients.
+                        </p>
+                        <span class="criteria-target">Target: KB-only answers · Pending numeric</span>
                     </div>
                 </div>
             </div>
@@ -1918,7 +1984,7 @@
                     <div class="timeline-item">
                         <div class="timeline-week">Next session <span class="pending-tag">Pending</span></div>
                         <div class="timeline-content">
-                            <strong>Working session / walk-through</strong> — short refresher of past demos, then agenda: similar tickets, M365/OneDrive/SharePoint knowledge, Agent Studio. Aim ~1:00 PM PT the following week (not Monday). Length 45–90 minutes depending on the client.
+                            <strong>Working session / walk-through</strong> — short refresher of past demos, then agenda: similar tickets; M365 / OneDrive / SharePoint / Jira as knowledge; Agent Studio vs Power Automate. Aim ~1:00 PM PT the following week (not Monday). Length 45–90 minutes depending on the client.
                         </div>
                         <div class="timeline-owner">DevRev + Serene</div>
                     </div>
@@ -2055,6 +2121,11 @@
       activate(initial || 'scope', { updateHash: !!initial });
 
       window.activatePocTab = activate;
+
+      var otpBtn = document.getElementById('otp-btn');
+      if (otpBtn && window.PocGate && PocGate.OTP_URL) {
+        otpBtn.href = PocGate.OTP_URL;
+      }
     })();
     </script>
 

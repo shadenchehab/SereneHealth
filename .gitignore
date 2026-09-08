@@ -3,3 +3,9 @@
 node_modules/
 *.log
 .python-version
+.env
+**/.env
+"Article migration between orgs/.env"
+otp-board/.dev.vars
+otp-board/.wrangler/
+otp-board/node_modules/
