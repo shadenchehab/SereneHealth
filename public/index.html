@@ -273,8 +273,8 @@
         }
 
         .nav-auth-btn.is-logged-in:hover {
-            background: transparent;
-            color: var(--text-dark);
+            background: #222;
+            color: var(--yellow-bright);
         }
 
         .nav-otp-btn {
@@ -465,8 +465,220 @@
             transform: translateY(-1px);
         }
 
+        /* Nav Log in removed — staff login opens from Launch Computer / Launch Support App.
+           Patient only via CX "Sign in as a patient". */
+        .auth-modal:not([data-roles="patient"]) .auth-role-btn[data-role="patient"] {
+            display: none;
+        }
+
         .auth-modal[data-roles="patient"] .auth-role-btn:not([data-role="patient"]) {
             display: none;
+        }
+
+        .auth-modal[data-roles="truecare-staff"] .auth-role-btn:not([data-role="truecare-support"]):not([data-role="executive"]) {
+            display: none;
+        }
+
+        .auth-modal[data-roles="alliance-staff"] .auth-role-btn:not([data-role="alliance-support"]):not([data-role="executive"]) {
+            display: none;
+        }
+
+        .auth-modal[data-step="creds"] .auth-role-list {
+            display: none;
+        }
+
+        .auth-creds {
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .auth-modal[data-step="creds"] .auth-creds {
+            display: flex;
+        }
+
+        .auth-creds-back {
+            align-self: flex-start;
+            border: 0;
+            background: transparent;
+            padding: 0;
+            font: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .auth-creds-back:hover {
+            color: var(--text-dark);
+        }
+
+        .auth-email-box {
+            border: 1.5px solid var(--border-light);
+            border-radius: 14px;
+            padding: 14px 16px;
+            background: var(--yellow-pale);
+            width: 100%;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+            position: relative;
+        }
+
+        .auth-email-box:hover {
+            border-color: var(--text-dark);
+            background: #fff8d6;
+        }
+
+        .auth-email-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .auth-email-value {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            word-break: break-all;
+        }
+
+        .auth-email-hint {
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .auth-copy-toast {
+            position: absolute;
+            right: 12px;
+            top: 12px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(-4px);
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .auth-copy-toast.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .auth-workspace-link {
+            display: block;
+            width: 100%;
+            border: 1.5px solid var(--border-light);
+            border-radius: 14px;
+            padding: 14px 16px;
+            background: var(--white);
+            text-decoration: none;
+            color: inherit;
+            text-align: left;
+            font: inherit;
+            cursor: pointer;
+            transition: border-color 0.15s, background 0.15s;
+            position: relative;
+        }
+
+        .auth-workspace-link:hover {
+            border-color: var(--text-dark);
+            background: var(--yellow-pale);
+        }
+
+        .auth-workspace-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .auth-workspace-url {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--indigo-title, #3730a3);
+            word-break: break-all;
+        }
+
+        .auth-workspace-hint {
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Workspace link is for menu Log in (staff) only — never CX patient */
+        .auth-modal[data-roles="patient"] .auth-workspace-link {
+            display: none;
+        }
+
+        .auth-incognito-note {
+            margin: 0;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            font-size: 0.84rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        .auth-incognito-note strong {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .auth-incognito-note kbd {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            background: var(--white);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .auth-creds-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .auth-otp-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 20px;
+            background: var(--text-dark);
+            color: var(--yellow-bright);
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .auth-otp-link:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
 
         @keyframes authFadeIn {
@@ -638,7 +850,7 @@
         /* ── Scope: In-scope grid (lavender) ── */
         .in-scope-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
 
@@ -781,22 +993,18 @@
             list-style: none;
             padding: 0;
             margin: 0;
-            flex: 1;
             display: flex;
             flex-direction: column;
+            gap: 0;
         }
 
         .qa-card-list li {
             color: var(--text-body);
             font-size: 0.92rem;
-            line-height: 1.55;
-            padding: 14px 0 14px 26px;
+            line-height: 1.5;
+            padding: 11px 0 11px 26px;
             border-bottom: 1px solid rgba(55, 48, 163, 0.1);
             position: relative;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            min-height: 48px;
         }
 
         .qa-card-list li::before {
@@ -888,26 +1096,100 @@
             overflow: visible;
             display: flex;
             justify-content: center;
-            padding: 8px 0 4px;
+            padding: 4px 0 8px;
         }
 
         .phone-frame {
-            width: 100%;
-            max-width: 320px;
+            width: min(100%, 360px);
             background: #0b0b0b;
-            border-radius: 36px;
-            padding: 10px;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+            border-radius: 44px;
+            padding: 12px;
+            box-shadow: 0 22px 56px rgba(0,0,0,0.2);
         }
 
         .phone-screen {
             background: #fff;
-            border-radius: 28px;
+            border-radius: 34px;
             overflow: hidden;
-            min-height: 620px;
+            /* Sized by content so Help options aren't clipped; ~phone proportions at 360px */
+            min-height: 740px;
             display: flex;
             flex-direction: column;
             position: relative;
+        }
+
+        /* DevRev PLuG: hide floating launcher; chat panel is CSS-pinned into the phone screen */
+        body.plug-in-phone iframe[data-drid="PLUG_LAUNCHER_IFRAME"],
+        body.plug-in-phone iframe#plug-launcher-iframe,
+        body.plug-in-phone div[id^="plug-launcher"] {
+            display: none !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+        }
+
+        body.plug-in-phone iframe[data-drid="PLUG_WIDGET_IFRAME"],
+        body.plug-in-phone iframe#plug-chat-iframe {
+            position: fixed !important;
+            margin: 0 !important;
+            border: 0 !important;
+            /* Match .phone-screen top corners; flat bottom above the app tab bar */
+            border-radius: 34px 34px 0 0 !important;
+            overflow: hidden !important;
+            box-shadow: none !important;
+            max-width: none !important;
+            max-height: none !important;
+            /* Below site nav (100) so scrolling never covers the web menu */
+            z-index: 20 !important;
+            /* Clip square widget chrome to the phone curve */
+            clip-path: inset(0 round 34px 34px 0 0);
+            -webkit-clip-path: inset(0 round 34px 34px 0 0);
+            /* top/left/width/height set by syncPlugToPhone() */
+        }
+
+        /* Some Plug builds wrap the chat iframe — keep the wrapper clipped too */
+        body.plug-in-phone div:has(> iframe[data-drid="PLUG_WIDGET_IFRAME"]),
+        body.plug-in-phone div:has(> iframe#plug-chat-iframe) {
+            border-radius: 34px 34px 0 0 !important;
+            overflow: hidden !important;
+            clip-path: inset(0 round 34px 34px 0 0);
+            -webkit-clip-path: inset(0 round 34px 34px 0 0);
+        }
+
+        body.plug-in-phone:not([data-plug-open="true"]) iframe[data-drid="PLUG_WIDGET_IFRAME"],
+        body.plug-in-phone:not([data-plug-open="true"]) iframe#plug-chat-iframe {
+            visibility: hidden !important;
+            pointer-events: none !important;
+            opacity: 0 !important;
+        }
+
+        /* Chat open: hide Help content only — keep TrueCare bottom menu visible */
+        .phone-screen.is-chat-open .phone-body,
+        .phone-screen.is-chat-open .phone-status {
+            visibility: hidden;
+        }
+
+        .phone-plug-slot {
+            display: none;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            /* bottom set so tab bar + home indicator stay clear */
+            bottom: 72px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .phone-screen.is-chat-open .phone-plug-slot {
+            display: block;
+        }
+
+        .phone-tabbar,
+        .home-indicator {
+            position: relative;
+            z-index: 3;
+            background: #fff;
         }
 
         .phone-status {
@@ -919,10 +1201,10 @@
             font-weight: 700;
         }
 
-        .phone-body { padding: 16px 18px 10px; flex: 1; }
+        .phone-body { padding: 18px 20px 12px; flex: 1; }
         .phone-body h3 {
             font-family: 'Bricolage Grotesque', sans-serif;
-            font-size: 1.7rem;
+            font-size: 1.65rem;
             font-weight: 800;
             letter-spacing: -0.03em;
             margin: 0 0 6px;
@@ -943,8 +1225,8 @@
             background: #fff;
             border: 1px solid #eef0f2;
             border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 14px;
+            margin-bottom: 12px;
             width: 100%;
             font: inherit;
             text-align: left;
@@ -996,6 +1278,9 @@
         }
 
         .live-panel-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             padding: 16px 24px 24px;
             margin-top: auto;
         }
@@ -1004,7 +1289,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 100%;
+            flex: 1 1 180px;
             gap: 10px;
             padding: 14px 32px;
             background: var(--text-dark);
@@ -1565,13 +1850,7 @@
                         <button type="button" class="nav-tab" role="tab" data-tab="support-alliance" aria-controls="support-alliance" aria-selected="false">Alliance Support</button>
                     </div>
                 </details>
-                <button type="button" class="nav-tab" role="tab" data-tab="criteria" aria-controls="criteria" aria-selected="false">Success Criteria</button>
                 <button type="button" class="nav-tab" role="tab" data-tab="timeline" aria-controls="timeline" aria-selected="false">Timeline</button>
-            </div>
-            <div class="nav-auth">
-                <a class="nav-otp-btn" id="otp-btn" href="#" target="_blank" rel="noopener noreferrer">Get OTP</a>
-                <span class="nav-auth-greeting" id="auth-greeting" hidden></span>
-                <button type="button" class="nav-auth-btn" id="auth-btn">Log in</button>
             </div>
         </div>
     </nav>
@@ -1586,7 +1865,7 @@
                     Proof of Concept
                 </h1>
                 <p class="hero-subtitle">
-                    DevRev × Serene Health — TrueCare App and Alliance. Structured PoC for Computer (enterprise search and team assist), CX Agent on the TrueCare Help screen, then a guided working session on the GEM team instance.
+                    DevRev × Serene Health — TrueCare App and Alliance. Structured PoC for Computer (enterprise search and team assist), CX Agent on the TrueCare Help screen and Support team access for Alliance and TrueCare.
                 </p>
             </div>
         </div>
@@ -1602,26 +1881,20 @@
                     <div class="section-label">Scope</div>
                     <h2>Problem Statement &amp; Scope of Work</h2>
                     <p class="section-subtitle">
-                        From the 25 Aug working session (Shaden, Thenu, Abid, Keith). Numeric targets and the Zoho feature matrix are still open.
+                        TrueCare patient app and Alliance provider platform three PoC use cases.
                     </p>
                 </div>
 
                 <div class="problem-statement-card">
                     <h2>Problem Statement</h2>
                     <p>
-                        Serene Health is evaluating DevRev as the AI platform across two brands: <strong>TrueCare</strong> (patient RPM app — Omron Bluetooth vitals) and <strong>Alliance</strong> (provider / HIE platform). Support today sits in Zoho. The client asked whether DevRev can replace Zoho feature by feature, and wants to trust-but-verify in a live workspace. Prior demos landed: similar-ticket search — “bring me all the issues that are related” — returning related work as knowledge. Next they want organization knowledge from Microsoft 365 email, OneDrive, SharePoint, and Jira, and to see Agent Studio as the way to build agents quickly (the Power Automate comparison), so this is an AI platform going forward, not a single bot.
-                    </p>
-                    <p style="margin-top:14px;">
-                        The original landing CX use case (still in this playground): patients and TrueCare Support use a ~33-page Omron / Bluetooth pairing knowledge base — Help → Chat on the TrueCare app, no PHI, no app-code change. Care-coordinator visit summaries, vital alerts to family, and Alliance HIE ticket playbooks were discussed earlier or inferred from the product; they are not the Aug 25 working-session agenda. Ticket volumes and numeric success targets were not locked. <span class="pending-tag">Pending</span>
+                        Support knowledge is siloed across tools, so teams struggle with complex report generation and have low visibility into related tickets and past resolutions. Serene Health needs one AI platform for smarter <strong>TrueCare</strong> and <strong>Alliance</strong> internal support, and a CX chat AI agent that can help patients with their questions.
                     </p>
                 </div>
 
                 <div class="scope-subheader">
                     <div class="section-label">In Scope</div>
                     <h2>Three Use Cases</h2>
-                    <p class="section-subtitle">
-                        Confirmed in the meeting. Detail we do not have yet is marked pending.
-                    </p>
                 </div>
 
                 <div class="in-scope-grid">
@@ -1629,33 +1902,24 @@
                         <div class="scope-card-label">Use Case 1</div>
                         <h3>CX Agent — TrueCare patients</h3>
                         <p>
-                            PLuG on the TrueCare Help screen (Chat only; patient login). Knowledge is the Omron / Bluetooth pairing guide used by Hosway’s helpdesk today: connect a market Bluetooth BP monitor to TrueCare on iPhone or Android, supported models, common errors. Keep it KB-only for this POC — no live permission API, no PHI, no mobile-app code change.
+                            PLuG on the TrueCare Help screen (Chat). With visibilty to historical conversation and ticket status.
                         </p>
                     </div>
 
                     <div class="scope-card">
                         <div class="scope-card-label">Use Case 2</div>
-                        <h3>Computer — similar tickets &amp; org knowledge</h3>
+                        <h3>Computer &amp; Agent Studio</h3>
                         <p>
-                            Executive and support users search related issues and turn ticket history into knowledge. Connect Microsoft 365 email, OneDrive, SharePoint, and Jira (already scripted on the GEM team instance). Zoho feature-by-feature parity to test is still a client question, not a committed integration for this session. <span class="pending-tag">Pending</span>
+                            Similar-ticket search and org knowledge for executives and support. Agent Studio as the AI platform to build automation and agents that share trusted answer everytime
                         </p>
                     </div>
 
-                    <div class="scope-card scope-card-wide">
+                    <div class="scope-card">
                         <div class="scope-card-label">Use Case 3</div>
-                        <h3>Agent Studio as the AI platform</h3>
+                        <h3>Zoho replacement — Support</h3>
                         <p>
-                            First solve a support use case, then prove agents can be built in the studio quickly (the “create an agent in an hour” / Power Automate comparison) so DevRev becomes the AI transformation platform — not one workflow.
+                            Support app for <strong>TrueCare</strong> and <strong>Alliance</strong> teams replace SaaS with AI based support solution for better intake, routing, and resolution.
                         </p>
-                        <div class="card-section">
-                            <ul class="card-criteria">
-                                <li><strong>Similar tickets</strong> — Bring related issues back as knowledge (validated in prior demos).</li>
-                                <li><strong>Connectors</strong> — Microsoft 365 email, OneDrive, SharePoint, and Jira as knowledge (GEM team instance already has OneDrive + Jira scripts).</li>
-                                <li><strong>Guided access</strong> — Walk-through first, then GEM team instance (trust but verify). Temporary email. Then office hours to poke around and optionally build together on the call.</li>
-                                <li><strong>Later, not this working session</strong> — Care-coordinator CCM call summary from vitals/Postgres; critical-reading alerts to care team and family (email/SMS). Abid flagged dashboard insights as too involved for the first show. <span class="pending-tag later">Later</span></li>
-                                <li><strong>Alliance Support vs TrueCare Support playbooks</strong> — split is in the playground menu. TrueCare tickets come from the Omron helpdesk script. Alliance HIE tickets were not named in meetings; examples below are from the Alliance product. <span class="pending-tag">Pending</span></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1668,7 +1932,7 @@
                     <div class="section-label">Computer</div>
                     <h2>Executive Users Enterprise search and Team Assist</h2>
                     <p class="section-subtitle">
-                        Similar-ticket search and organization knowledge (Microsoft 365, OneDrive, SharePoint, Jira). Agent Studio vs Power Automate. Live Computer URL is pending.
+                        Similar-ticket search and organization knowledge.
                     </p>
                 </div>
 
@@ -1677,9 +1941,6 @@
                         <h3 class="qa-card-title">What can Computer do for you?</h3>
                         <ul class="qa-card-list">
                             <li>Bring me all the issues that are related</li>
-                            <li>Search knowledge from OneDrive, SharePoint, Microsoft 365 email, and Jira</li>
-                            <li>Show me how we create an agent in Agent Studio (vs Power Automate)</li>
-                            <li>Can DevRev cover this Zoho feature? <span class="pending-tag">Pending — matrix</span></li>
                             <li>Summarize this patient’s vitals before the weekly CCM call <span class="pending-tag later">Later</span></li>
                         </ul>
                     </div>
@@ -1689,7 +1950,7 @@
                             <div class="live-panel-label">Live Demo</div>
                             <h3 class="live-panel-title">Try Computer Live</h3>
                             <p class="live-panel-subtitle">
-                                GEM team instance for the client to practice after a guided walk-through. Playground URL and access email are not in the transcript.
+                                Open Computer on the serenehealth-poc workspace.
                             </p>
                         </div>
                         <div class="live-preview">
@@ -1701,7 +1962,7 @@
                                 allowfullscreen></iframe>
                         </div>
                         <div class="live-panel-actions">
-                            <a class="live-panel-cta-link is-pending" href="#computer" aria-disabled="true">Launch Computer <span class="pending-tag">Pending</span></a>
+                            <a class="live-panel-cta-link" href="#" id="computer-launch" role="button">Launch Computer</a>
                         </div>
                     </div>
                 </div>
@@ -1736,7 +1997,7 @@
                             <div class="live-panel-label">TrueCare App</div>
                             <h3 class="live-panel-title">Help / Support</h3>
                             <p class="live-panel-subtitle">
-                                Patient Help screen. Chat is the PLuG install point — sign in as a Patient to try CX Agent.
+                                Patient Help screen. Sign in as a patient, then tap Chat — PLuG opens inside this phone frame (no floating icon).
                             </p>
                         </div>
                         <div class="live-preview live-preview--phone">
@@ -1786,6 +2047,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="phone-plug-slot" id="phone-plug-slot" aria-hidden="true"></div>
                                     <nav class="phone-tabbar" aria-label="TrueCare app tabs">
                                         <div class="tab-item">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>
@@ -1809,7 +2071,7 @@
                             </div>
                         </div>
                         <div class="live-panel-actions">
-                            <a class="live-panel-cta-link" id="cx-agent-signin" href="#" role="button">Sign in to CX Agent</a>
+                            <a class="live-panel-cta-link" id="cx-agent-signin" href="#" role="button">Sign in as a patient</a>
                         </div>
                     </div>
                 </div>
@@ -1823,40 +2085,40 @@
                     <div class="section-label">Support</div>
                     <h2>TrueCare Support</h2>
                     <p class="section-subtitle">
-                        Internal TrueCare helpdesk. Same Omron / Bluetooth script given to Hosway: if a patient calls “I cannot connect my Omron,” the agent walks the script — and Computer can pull similar tickets.
+                        Internal TrueCare Support.
                     </p>
                 </div>
 
                 <div class="tab-pair-grid">
                     <div class="qa-card">
-                        <h3 class="qa-card-title">What can Computer do for you?</h3>
+                        <h3 class="qa-card-title">What can Computer do for your Support team?</h3>
                         <ul class="qa-card-list">
                             <li>Patient called: cannot connect Omron device — walk me through the script</li>
                             <li>Which Omron models do we support?</li>
-                            <li>Bring me all similar pairing / Bluetooth tickets</li>
+                            <li>Bring me all similar tickets</li>
                             <li>What are the common errors connecting a Bluetooth BP monitor to TrueCare?</li>
-                            <li>How do pairing steps differ on iPhone vs Android?</li>
+                            <li>How did the team solve this issue in the past?</li>
                         </ul>
                     </div>
 
                     <div class="live-panel-card">
                         <div class="live-panel-head">
                             <div class="live-panel-label">Live Demo</div>
-                            <h3 class="live-panel-title">Try Computer Live</h3>
+                            <h3 class="live-panel-title">Try Support App Live</h3>
                             <p class="live-panel-subtitle">
-                                GEM team instance after the guided walk-through. Workspace URL is not in the transcript.
+                                Open the Support app on the serenehealth-poc workspace.
                             </p>
                         </div>
                         <div class="live-preview">
                             <iframe
-                                src="https://www.youtube.com/embed/Q_mLzHcz59I"
-                                title="Try Computer Live"
+                                src="https://www.youtube.com/embed/meER9aI2zVI?si=ZLB8bRx8ZRmJWM6S"
+                                title="Try Support App Live"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen></iframe>
                         </div>
                         <div class="live-panel-actions">
-                            <a class="live-panel-cta-link is-pending" href="#support-truecare" aria-disabled="true">Launch Computer <span class="pending-tag">Pending</span></a>
+                            <a class="live-panel-cta-link" href="#" id="truecare-launch" role="button">Launch Support App</a>
                         </div>
                     </div>
                 </div>
@@ -1870,13 +2132,13 @@
                     <div class="section-label">Support</div>
                     <h2>Alliance Support</h2>
                     <p class="section-subtitle">
-                        Provider HIE users (hospitals, clinics, plans, IPAs, ACOs). Meetings name Alliance as the second platform but do not list ticket types. These two examples are from the Alliance product, not the transcripts.
+                        Alliance Internal Support.
                     </p>
                 </div>
 
                 <div class="tab-pair-grid">
                     <div class="qa-card">
-                        <h3 class="qa-card-title">What can Computer do for you?</h3>
+                        <h3 class="qa-card-title">What can Computer do for your Support team?</h3>
                         <ul class="qa-card-list">
                             <li>Health Cloud chart is missing medications after the hospital EHR update <span class="pending-tag from-product">From product</span></li>
                             <li>Custom HEDIS / RAF / MACRA measures don’t match our health-system goals <span class="pending-tag from-product">From product</span></li>
@@ -1889,73 +2151,22 @@
                     <div class="live-panel-card">
                         <div class="live-panel-head">
                             <div class="live-panel-label">Live Demo</div>
-                            <h3 class="live-panel-title">Try Computer Live</h3>
+                            <h3 class="live-panel-title">Try Support App Live</h3>
                             <p class="live-panel-subtitle">
-                                GEM team instance after the guided walk-through. Workspace URL is not in the transcript.
+                                Open the Support app on the serenehealth-poc workspace.
                             </p>
                         </div>
                         <div class="live-preview">
                             <iframe
-                                src="https://www.youtube.com/embed/Q_mLzHcz59I"
-                                title="Try Computer Live"
+                                src="https://www.youtube.com/embed/meER9aI2zVI?si=ZLB8bRx8ZRmJWM6S"
+                                title="Try Support App Live"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                                 referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen></iframe>
                         </div>
                         <div class="live-panel-actions">
-                            <a class="live-panel-cta-link is-pending" href="#support-alliance" aria-disabled="true">Launch Computer <span class="pending-tag">Pending</span></a>
+                            <a class="live-panel-cta-link" href="#" id="alliance-launch" role="button">Launch Support App</a>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Success Criteria panel -->
-        <section class="section tab-panel" id="criteria" role="tabpanel" aria-labelledby="criteria">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-label">Success Criteria</div>
-                    <h2>How We'll Measure Success</h2>
-                    <p class="section-subtitle">
-                        Outcomes named in the 25 Aug session. Numeric targets were not agreed — those stay pending.
-                    </p>
-                </div>
-
-                <div class="criteria-grid">
-                    <div class="criteria-card">
-                        <div class="criteria-card-index">01</div>
-                        <h3>Surface similar tickets as knowledge</h3>
-                        <p>
-                            Computer returns related issues — “bring me all the issues that are related” — the capability the client already liked in prior demos.
-                        </p>
-                        <span class="criteria-target">Target: Pending</span>
-                    </div>
-
-                    <div class="criteria-card">
-                        <div class="criteria-card-index">02</div>
-                        <h3>Organization knowledge via connectors</h3>
-                        <p>
-                            Microsoft 365 email, OneDrive, SharePoint, and Jira are connected so organization knowledge sits next to tickets.
-                        </p>
-                        <span class="criteria-target">Target: Pending</span>
-                    </div>
-
-                    <div class="criteria-card">
-                        <div class="criteria-card-index">03</div>
-                        <h3>Platform, not a single bot</h3>
-                        <p>
-                            Walk-through, then GEM team access (trust but verify). Show Agent Studio can stand in as the AI platform — including the “build an agent quickly” comparison to Power Automate — and whether DevRev can cover Zoho feature by feature.
-                        </p>
-                        <span class="criteria-target">Target: Pending · Zoho matrix Pending</span>
-                    </div>
-
-                    <div class="criteria-card">
-                        <div class="criteria-card-index">04</div>
-                        <h3>TrueCare CX Agent answers Omron how-tos</h3>
-                        <p>
-                            Patient Chat on Help uses the ~33-page pairing KB (iPhone vs Android, supported models, common errors). Same script internally for TrueCare Support. No PHI, no app-code change. Pilot is a small set of patients.
-                        </p>
-                        <span class="criteria-target">Target: KB-only answers · Pending numeric</span>
                     </div>
                 </div>
             </div>
@@ -1968,47 +2179,47 @@
                     <div class="section-label">Timeline</div>
                     <h2>Next steps</h2>
                     <p class="section-subtitle">
-                        From the 25 Aug call. Calendar hold and session length are still to be confirmed with the client.
+                        3 Weeks access to the PoC environment.
                     </p>
                 </div>
 
                 <div class="timeline-list">
                     <div class="timeline-item">
-                        <div class="timeline-week">25 Aug</div>
+                        <div class="timeline-week">31 Aug</div>
                         <div class="timeline-content">
-                            <strong>On-site — TrueCare commercialization &amp; roadmap</strong> — Abid/Keith with the client. Scope this structured PoC in parallel.
+                            <strong>PoC environment building</strong> — Abid/Shaden work on the PoC requirements and build the environment.
                         </div>
-                        <div class="timeline-owner">Serene + DevRev</div>
+                        <div class="timeline-owner">Serene Health + DevRev + Gem Team</div>
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-week">Next session <span class="pending-tag">Pending</span></div>
+                        <div class="timeline-week">08 Sep </div>
                         <div class="timeline-content">
-                            <strong>Working session / walk-through</strong> — short refresher of past demos, then agenda: similar tickets; M365 / OneDrive / SharePoint / Jira as knowledge; Agent Studio vs Power Automate. Aim ~1:00 PM PT the following week (not Monday). Length 45–90 minutes depending on the client.
+                            <strong>Walk-through</strong> — Walk through the PoC draft with Gem team and schedule for the next Hands-on session.
                         </div>
-                        <div class="timeline-owner">DevRev + Serene</div>
+                        <div class="timeline-owner">DevRev + Serene Health</div>
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-week">After walk-through</div>
+                        <div class="timeline-week">14 Sep</div>
                         <div class="timeline-content">
-                            <strong>GEM team instance access</strong> — Thenu provisions a temporary email so the client can practice. Trust but verify: guided first, then self-serve.
+                            <strong>Instance access</strong> — Acces to the PoC environment to practice, trust and verify: guided first, then self-serve.
                         </div>
-                        <div class="timeline-owner">Thenu + DevRev</div>
+                        <div class="timeline-owner">Serene Health + DevRev</div>
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-week">Office hours <span class="pending-tag">Pending</span></div>
+                        <div class="timeline-week"> Date <span class="pending-tag">Pending</span></div>
                         <div class="timeline-content">
-                            <strong>Client pokes around on the call</strong> — questions live; optionally build a simple agent together to show speed.
+                            <strong> Office hours </strong> — questions live; build a simple agent/workflow together.
                         </div>
-                        <div class="timeline-owner">DevRev + client</div>
+                        <div class="timeline-owner">DevRev + Serene Health</div>
                     </div>
 
                     <div class="timeline-item">
-                        <div class="timeline-week">Follow-up <span class="pending-tag">Pending</span></div>
+                        <div class="timeline-week"> 28 Sep <span class="pending-tag">Pending</span></div>
                         <div class="timeline-content">
-                            <strong>Requirements, budget, approval</strong> — further requirements and a budget number for approval were named, not specified.
+                            <strong>Requirements, budget, approval</strong> — further requirements and a budget number for approval.
                         </div>
                         <div class="timeline-owner">Serene + DevRev</div>
                     </div>
@@ -2053,10 +2264,33 @@
             <h2 class="auth-modal-title" id="auth-modal-title">Sign in</h2>
             <p class="auth-modal-subtitle" id="auth-modal-subtitle">Choose a role to continue.</p>
             <div class="auth-role-list" id="auth-role-list">
-                <button type="button" class="auth-role-btn" data-role="patient">Log in as a Patient</button>
-                <button type="button" class="auth-role-btn" data-role="truecare-support">Log in as TrueCare Support</button>
-                <button type="button" class="auth-role-btn" data-role="alliance-support">Log in as Alliance Support</button>
-                <button type="button" class="auth-role-btn" data-role="executive">Log in as Executive</button>
+                <button type="button" class="auth-role-btn" data-role="truecare-support">TrueCare Support</button>
+                <button type="button" class="auth-role-btn" data-role="alliance-support">Alliance Support</button>
+                <button type="button" class="auth-role-btn" data-role="executive">Executive</button>
+                <button type="button" class="auth-role-btn" data-role="patient">Sign in as a patient</button>
+            </div>
+            <div class="auth-creds" id="auth-creds" hidden>
+                <button type="button" class="auth-creds-back" id="auth-creds-back">← Back</button>
+                <p class="auth-incognito-note">
+                    <strong>1. Open a private window</strong><br>
+                    Use Incognito / private mode so DevRev login stays clean for the demo.
+                    On Windows (Chrome or Edge): press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd>.
+                </p>
+                <button type="button" class="auth-workspace-link" id="auth-workspace-link" aria-label="Copy workspace link">
+                    <div class="auth-workspace-label">2. Copy the URL · click to copy</div>
+                    <div class="auth-workspace-url" id="auth-workspace-url">https://app.devrev.ai/serenehealth-poc</div>
+                    <div class="auth-workspace-hint">Paste into your private window</div>
+                    <span class="auth-copy-toast" id="auth-workspace-toast" aria-live="polite">Copied</span>
+                </button>
+                <button type="button" class="auth-email-box" id="auth-email-box" aria-label="Copy email">
+                    <div class="auth-email-label">3. Copy the email · click to copy</div>
+                    <div class="auth-email-value" id="auth-email-value"></div>
+                    <div class="auth-email-hint">Paste when DevRev asks you to sign in</div>
+                    <span class="auth-copy-toast" id="auth-copy-toast" aria-live="polite">Copied</span>
+                </button>
+                <div class="auth-creds-actions">
+                    <a class="auth-otp-link" id="auth-otp-link" href="#" target="_blank" rel="noopener noreferrer">Get OTP</a>
+                </div>
             </div>
             <p class="auth-error" id="auth-error" hidden role="alert"></p>
         </div>
@@ -2126,6 +2360,10 @@
       if (otpBtn && window.PocGate && PocGate.OTP_URL) {
         otpBtn.href = PocGate.OTP_URL;
       }
+      var authOtpLink = document.getElementById('auth-otp-link');
+      if (authOtpLink && window.PocGate && PocGate.OTP_URL) {
+        authOtpLink.href = PocGate.OTP_URL;
+      }
     })();
     </script>
 
@@ -2173,35 +2411,34 @@
         body:not([data-auth="true"]) .nav-tab[data-tab="cx-agent"] { display: none; }
         or by intercepting tab activation in the tab-switching script above.
 
-      The auth IIFE also boots the DevRev CX Agent (plugSDK) widget in the
-      bottom-right corner whenever a session is active — on page load if the
-      user is already logged in, and right after a successful sign-in. The
-      "Sign in to CX Agent" button on the CX Agent tab opens this same modal
-      when the user is not yet logged in.
+      The auth IIFE boots DevRev PLuG for a signed-in Patient only. The
+      floating launcher icon is disabled; Chat on the TrueCare phone mockup
+      opens the widget, and CSS pins the widget iframe inside the phone
+      screen. "Sign in as a patient" opens a patient-only modal.
     -->
     <script>
     (function() {
       var ROLES = {
         'patient': {
-          email: 'patient@truecare.demo',
+          email: 'patient@connectadevrev.work',
           name: 'Patient',
           role: 'patient',
           tab: 'cx-agent'
         },
         'truecare-support': {
-          email: 'truecare.support@serene.demo',
+          email: 'support-true-care@connectadevrev.work',
           name: 'TrueCare Support',
           role: 'truecare-support',
           tab: 'support-truecare'
         },
         'alliance-support': {
-          email: 'alliance.support@serene.demo',
+          email: 'support-alliancehie@connectadevrev.work',
           name: 'Alliance Support',
           role: 'alliance-support',
           tab: 'support-alliance'
         },
         'executive': {
-          email: 'executive@serene.demo',
+          email: 'exec@connectadevrev.work',
           name: 'Executive',
           role: 'executive',
           tab: 'computer'
@@ -2213,30 +2450,97 @@
       });
       var STORAGE_KEY = 'serene-health-poc-auth';
 
-      // CX Agent (DevRev plugSDK) wiring.
-      // We use plugSDK's client-side `identity` flow (beta) instead of the
-      // server-side `auth-tokens.create` flow because the latter requires an
-      // Application Access Token (AAT) that must never be exposed to the
-      // browser. The value below is the plug's app_id (a reference to the
-      // plug_setting object — safe to expose), not an AAT.
-      var CX_APP_ID      = 'DvRvStPZG9uOmNvcmU6ZHZydi11cy0xOmRldm8vMW9FdU13R0lzczpwbHVnX3NldHRpbmcvMV9ffHxfXzIwMjYtMDQtMjkgMTg6MTI6NTUuMDE0Mzk2NTQ5ICswMDAwIFVUQw==xlxendsDvRv';
+      // CX Agent (DevRev plugSDK) — session_token flow via auth-tokens.create.
+      // PoC only: AAT is in the page. Move it behind a Worker before any public deploy.
+      var CX_APP_ID = 'DvRvStPZG9uOmNvcmU6ZHZydi11cy0xOmRldm8vMW5rZFh2T1RjYzpwbHVnX3NldHRpbmcvMV9ffHxfXzIwMjYtMDktMDcgMTU6NDU6MDUuOTg3MzM5ODg1ICswMDAwIFVUQw==xlxendsDvRv';
+      var CX_AAT = 'eyJhbGciOiJSUzI1NiIsImlzcyI6Imh0dHBzOi8vYXV0aC10b2tlbi5kZXZyZXYuYWkvIiwia2lkIjoic3RzX2tpZF9yc2EiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOlsiamFudXMiXSwiYXpwIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzFua2RYdk9UY2M6ZGV2dS8xIiwiZXhwIjoxNzkxNDI1ODU4LCJodHRwOi8vZGV2cmV2LmFpL2NsaWVudGlkIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzFua2RYdk9UY2M6c3ZjYWNjLzQwIiwiaHR0cDovL2RldnJldi5haS9kZXZvX2RvbiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by8xbmtkWHZPVGNjIiwiaHR0cDovL2RldnJldi5haS9kZXZvaWQiOiJERVYtMW5rZFh2T1RjYyIsImh0dHA6Ly9kZXZyZXYuYWkvc3ZjYWNjIjoiZG9uOmlkZW50aXR5OmR2cnYtdXMtMTpkZXZvLzFua2RYdk9UY2M6c3ZjYWNjLzQwIiwiaHR0cDovL2RldnJldi5haS90b2tlbnR5cGUiOiJ1cm46ZGV2cmV2OnBhcmFtczpvYXV0aDp0b2tlbi10eXBlOmFhdCIsImlhdCI6MTc4ODgzMzg1OCwiaXNzIjoiaHR0cHM6Ly9hdXRoLXRva2VuLmRldnJldi5haS8iLCJqdGkiOiJkb246aWRlbnRpdHk6ZHZydi11cy0xOmRldm8vMW5rZFh2T1RjYzp0b2tlbi9nSFFTSUhaaiIsInNjb3BlIjoidXJuOmRldnJldjpwYXJhbXM6b2F1dGg6dG9rZW4tdHlwZTpzZXNzaW9uOnJldiIsInN1YiI6ImRvbjppZGVudGl0eTpkdnJ2LXVzLTE6ZGV2by8xbmtkWHZPVGNjOnN2Y2FjYy80MCJ9.k-z4ghkxI6KS7AOaDiBrd-SAAnpuY_fStPPtHexwOmT7HyFivQ64rs8JLLmnTXDDYfjiUgC6OyR-wjFUdY_wpP1yJOKk1wVAEGi7CYc7OcKXSojN22vSIcJHCgv_wEZ1a8PnCN01XZwRE9xbfZjd3dHD0bedC83Ae5wY4VLlWizLINGc-vDSjEV8MPKa5WHJgowvVoaW3e6Ddl7nmNG0zaq0VzuURVwZVPwqGOrHsNZlRQsPgUrTvKjdQhIljQsBMTgm68X9E6QMsAPFiTWWHqX34jvHSEfVYbSqqOrIi_-DHpzHFo1KtLI6idZd61dIvukw33XuttoJREW5p1CCCg';
+      var CX_ACCOUNT_REF = 'connectadevrev.work';
       var CX_PLUG_SRC    = 'https://plug-platform.devrev.ai/static/plug.js';
       var cxScriptLoaded = false;
       var cxInitialized  = false;
+      var plugReady      = false;
 
-      var authBtn       = document.getElementById('auth-btn');
-      var greetingEl    = document.getElementById('auth-greeting');
       var modal         = document.getElementById('auth-modal');
       var closeBtn      = document.getElementById('auth-modal-close');
       var roleList      = document.getElementById('auth-role-list');
+      var credsPanel    = document.getElementById('auth-creds');
+      var credsBack     = document.getElementById('auth-creds-back');
+      var emailValueEl  = document.getElementById('auth-email-value');
+      var emailBoxEl    = document.getElementById('auth-email-box');
+      var copyToastEl   = document.getElementById('auth-copy-toast');
+      var workspaceBtn  = document.getElementById('auth-workspace-link');
+      var workspaceUrlEl = document.getElementById('auth-workspace-url');
+      var workspaceToastEl = document.getElementById('auth-workspace-toast');
+      var authOtpLink   = document.getElementById('auth-otp-link');
+      var titleEl       = document.getElementById('auth-modal-title');
       var errorEl       = document.getElementById('auth-error');
       var subtitleEl    = document.getElementById('auth-modal-subtitle');
       var cxBtn         = document.getElementById('cx-agent-signin');
       var chatBtn       = document.getElementById('truecare-chat');
+      var computerLaunch = document.getElementById('computer-launch');
+      var truecareLaunch = document.getElementById('truecare-launch');
+      var allianceLaunch = document.getElementById('alliance-launch');
+      var phoneScreen   = document.querySelector('#cx-agent .phone-screen');
+      var phonePlugSlot = document.getElementById('phone-plug-slot');
+      var phoneTabbar   = document.querySelector('#cx-agent .phone-tabbar');
+      var phoneHomeInd  = document.querySelector('#cx-agent .home-indicator');
+      var siteNav       = document.getElementById('main-nav');
       var lastFocus     = null;
       var modalCard     = modal ? modal.querySelector('.auth-modal') : null;
+      var otpUrl        = (window.PocGate && PocGate.OTP_URL) || '#';
+      var SUPPORT_URL   = 'https://app.devrev.ai/serenehealth-poc';
+      var COMPUTER_URL  = 'https://app.devrev.ai/serenehealth-poc/computer';
+      var activeWorkspaceUrl = SUPPORT_URL;
+      var copyToastTimer = null;
+      var workspaceToastTimer = null;
 
-      if (!authBtn || !modal || !roleList) return;
+      if (!modal || !roleList) return;
+
+      if (authOtpLink) authOtpLink.href = otpUrl;
+
+      function showToast(el, timerRef, setTimer) {
+        if (!el) return;
+        el.classList.add('is-visible');
+        if (timerRef) clearTimeout(timerRef);
+        setTimer(setTimeout(function() {
+          el.classList.remove('is-visible');
+        }, 1600));
+      }
+
+      function showCopiedToast() {
+        showToast(copyToastEl, copyToastTimer, function(t) { copyToastTimer = t; });
+      }
+
+      function showWorkspaceCopiedToast() {
+        showToast(workspaceToastEl, workspaceToastTimer, function(t) { workspaceToastTimer = t; });
+      }
+
+      function copyTextToClipboard(text, onDone) {
+        if (!text) return;
+        function done() { if (onDone) onDone(); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function() {
+            done();
+          });
+        } else {
+          done();
+        }
+      }
+
+      function copyEmailToClipboard() {
+        var email = emailValueEl ? emailValueEl.textContent.trim() : '';
+        copyTextToClipboard(email, showCopiedToast);
+      }
+
+      function setWorkspaceUrl(url) {
+        activeWorkspaceUrl = url || SUPPORT_URL;
+        if (workspaceUrlEl) workspaceUrlEl.textContent = activeWorkspaceUrl;
+      }
+
+      function copyWorkspaceToClipboard() {
+        var url = workspaceUrlEl ? workspaceUrlEl.textContent.trim() : activeWorkspaceUrl;
+        copyTextToClipboard(url, showWorkspaceCopiedToast);
+      }
 
       function getSession() {
         try {
@@ -2252,26 +2556,166 @@
         }
       }
 
+      function isPatientSession(session) {
+        return !!(session && session.role === 'patient');
+      }
+
+      function findPlugWidgetIframe() {
+        return document.querySelector(
+          'iframe[data-drid="PLUG_WIDGET_IFRAME"], iframe#plug-chat-iframe'
+        );
+      }
+
+      function getPlugSlotRect() {
+        if (!phoneScreen) return null;
+        var screenRect = phoneScreen.getBoundingClientRect();
+        var bottomChrome = 0;
+        if (phoneTabbar) bottomChrome += phoneTabbar.getBoundingClientRect().height;
+        if (phoneHomeInd) bottomChrome += phoneHomeInd.getBoundingClientRect().height;
+        if (phonePlugSlot) {
+          phonePlugSlot.style.bottom = bottomChrome + 'px';
+        }
+        return {
+          top: screenRect.top,
+          left: screenRect.left,
+          width: screenRect.width,
+          height: Math.max(0, screenRect.height - bottomChrome)
+        };
+      }
+
+      function syncPlugToPhone() {
+        var iframe = findPlugWidgetIframe();
+        if (!iframe || !phoneScreen) return;
+        if (document.body.getAttribute('data-plug-open') !== 'true') return;
+
+        var rect = getPlugSlotRect();
+        if (!rect || rect.height < 40 || rect.width < 40) {
+          iframe.style.setProperty('visibility', 'hidden', 'important');
+          iframe.style.setProperty('pointer-events', 'none', 'important');
+          return;
+        }
+
+        var navBottom = siteNav ? siteNav.getBoundingClientRect().bottom : 0;
+        var viewBottom = window.innerHeight;
+        var viewRight = window.innerWidth;
+
+        // Fully off-screen or under the site nav → hide (don't cover web menu)
+        if (
+          rect.top + rect.height <= navBottom ||
+          rect.top >= viewBottom ||
+          rect.left + rect.width <= 0 ||
+          rect.left >= viewRight
+        ) {
+          iframe.style.setProperty('visibility', 'hidden', 'important');
+          iframe.style.setProperty('pointer-events', 'none', 'important');
+          return;
+        }
+
+        var top = rect.top;
+        var height = rect.height;
+        if (top < navBottom) {
+          var clip = navBottom - top;
+          top += clip;
+          height -= clip;
+        }
+        if (top + height > viewBottom) {
+          height = viewBottom - top;
+        }
+        if (height < 40) {
+          iframe.style.setProperty('visibility', 'hidden', 'important');
+          iframe.style.setProperty('pointer-events', 'none', 'important');
+          return;
+        }
+
+        iframe.style.setProperty('visibility', 'visible', 'important');
+        iframe.style.setProperty('pointer-events', 'auto', 'important');
+        iframe.style.setProperty('opacity', '1', 'important');
+        iframe.style.setProperty('top', top + 'px', 'important');
+        iframe.style.setProperty('left', rect.left + 'px', 'important');
+        iframe.style.setProperty('width', Math.max(0, rect.width) + 'px', 'important');
+        iframe.style.setProperty('height', Math.max(0, height) + 'px', 'important');
+        iframe.style.setProperty('right', 'auto', 'important');
+        iframe.style.setProperty('bottom', 'auto', 'important');
+        iframe.style.setProperty('border-radius', '34px 34px 0 0', 'important');
+        iframe.style.setProperty('overflow', 'hidden', 'important');
+        iframe.style.setProperty('clip-path', 'inset(0 round 34px 34px 0 0)', 'important');
+
+        // Clip wrapper divs Plug may inject around the iframe
+        var wrap = iframe.parentElement;
+        if (wrap && wrap !== document.body && wrap !== document.documentElement) {
+          wrap.style.setProperty('border-radius', '34px 34px 0 0', 'important');
+          wrap.style.setProperty('overflow', 'hidden', 'important');
+          wrap.style.setProperty('clip-path', 'inset(0 round 34px 34px 0 0)', 'important');
+          wrap.style.setProperty('box-shadow', 'none', 'important');
+        }
+      }
+
+      function setPlugOpen(open) {
+        if (open) {
+          document.body.setAttribute('data-plug-open', 'true');
+          if (phoneScreen) phoneScreen.classList.add('is-chat-open');
+          syncPlugToPhone();
+        } else {
+          document.body.removeAttribute('data-plug-open');
+          if (phoneScreen) phoneScreen.classList.remove('is-chat-open');
+        }
+      }
+
+      function openPlugInPhone() {
+        if (!window.plugSDK || typeof window.plugSDK.toggleWidget !== 'function') {
+          console.error('[CX Agent] plugSDK.toggleWidget is not available yet.');
+          return;
+        }
+        try { window.plugSDK.toggleWidget(true); } catch (e) {
+          console.error('[CX Agent] toggleWidget failed:', e);
+        }
+        var tries = 0;
+        var timer = setInterval(function() {
+          tries += 1;
+          var iframe = findPlugWidgetIframe();
+          var open = window.plugSDK && window.plugSDK.isWidgetOpen;
+          if (iframe && (open || tries >= 4)) {
+            setPlugOpen(true);
+            clearInterval(timer);
+          } else if (tries >= 40) {
+            clearInterval(timer);
+            console.error('[CX Agent] widget iframe never appeared.');
+          }
+        }, 50);
+      }
+
+      function closePlugInPhone() {
+        if (window.plugSDK && typeof window.plugSDK.toggleWidget === 'function') {
+          try { window.plugSDK.toggleWidget(false); } catch (e) {}
+        }
+        setPlugOpen(false);
+      }
+
       function applyAuthState(session) {
         if (session) {
           document.body.setAttribute('data-auth', 'true');
           document.body.setAttribute('data-auth-email', session.email);
           if (session.role) document.body.setAttribute('data-auth-role', session.role);
-          authBtn.textContent = 'Log out';
-          authBtn.classList.add('is-logged-in');
-          greetingEl.textContent = 'Hi, ' + session.name;
-          greetingEl.hidden = false;
-          if (cxBtn) cxBtn.textContent = 'Sign out of CX Agent';
-          loadCxAgentWidget(session.email);
+          if (cxBtn) {
+            cxBtn.textContent = isPatientSession(session)
+              ? 'Sign out as patient'
+              : 'Sign in as a patient';
+          }
+          if (isPatientSession(session)) {
+            document.body.classList.add('plug-in-phone');
+            loadCxAgentWidget(session.email);
+          } else {
+            document.body.classList.remove('plug-in-phone');
+            setPlugOpen(false);
+            shutdownCxAgentWidget();
+          }
         } else {
           document.body.removeAttribute('data-auth');
           document.body.removeAttribute('data-auth-email');
           document.body.removeAttribute('data-auth-role');
-          authBtn.textContent = 'Log in';
-          authBtn.classList.remove('is-logged-in');
-          greetingEl.textContent = '';
-          greetingEl.hidden = true;
-          if (cxBtn) cxBtn.textContent = 'Sign in to CX Agent';
+          document.body.classList.remove('plug-in-phone');
+          setPlugOpen(false);
+          if (cxBtn) cxBtn.textContent = 'Sign in as a patient';
           shutdownCxAgentWidget();
         }
       }
@@ -2281,78 +2725,105 @@
         // Hard-reload instead of in-place teardown. plugSDK.shutdown()
         // leaves the launcher / widget iframes in the DOM with a still-
         // valid session token, and a subsequent plugSDK.init({newUser})
-        // creates a SECOND set of iframes alongside them — so logout +
-        // re-login as a different user ends up with two live plug
-        // sessions in parallel. DevRev's identify API is then called
-        // by both iframes (the old one with the previous user_ref, the
-        // new one with the current user_ref), and conversations / new
-        // tickets get attributed to whichever iframe handles the
-        // user's click — typically the older one. A hard reload is
-        // the only reliable way to guarantee plug is fully torn down
-        // before the next login.
+        // creates a SECOND set of iframes alongside them.
         location.reload();
       }
 
-      // Loads (once) and initializes the DevRev CX Agent widget for the
-      // signed-in user using the client-side `identity` flow. Safe to call
-      // multiple times — the guard prevents duplicate inits. Errors reset the
-      // guards so a retry can succeed.
+      // Loads plug.js, creates a session token with AAT, then inits Plug for
+      // the signed-in patient. Safe to call multiple times — the guard
+      // prevents duplicate inits. Errors reset the guards so a retry can succeed.
       function loadCxAgentWidget(userEmail) {
         if (cxInitialized) return;
         cxInitialized = true;
 
         var user = USERS[userEmail] || { name: userEmail };
+        var userRef = userEmail.toLowerCase();
 
-        // The plugSDK client-side `identity` flow requires a `user_ref` that
-        // is NOT already bound to a "verified" Rev User in the DevRev
-        // workspace. If the workspace already has a Rev User created via a
-        // server-side `session_token` flow / SSO / prior import with the
-        // same email, using the raw email as `user_ref` makes
-        // /internal/rev-users.identify return HTTP 409 ("input external ref
-        // is already associated with verified user."). plugSDK then aborts
-        // initialization and never injects the launcher iframe — the
-        // chatbot disappears silently after login. Namespacing the ref
-        // with a PoC-specific prefix sidesteps the collision; the real
-        // email still flows through user_traits so the agent sees the
-        // correct contact. (Same fix shipped earlier for the Altos Andes
-        // and Volkswagen subsites.)
-        var userRef = 'serene-poc-' + userEmail.toLowerCase();
+        function bindPlugEvents() {
+          if (typeof window.plugSDK.onEvent !== 'function') return;
+          window.plugSDK.onEvent(function(payload) {
+            if (!payload || !payload.type) return;
+            if (payload.type === 'ON_PLUG_WIDGET_READY') {
+              plugReady = true;
+              syncPlugToPhone();
+            } else if (payload.type === 'ON_PLUG_WIDGET_OPENED') {
+              setPlugOpen(true);
+            } else if (payload.type === 'ON_PLUG_WIDGET_CLOSED') {
+              setPlugOpen(false);
+            }
+          });
+        }
 
-        function initPlug() {
+        function initPlugWithSessionToken(sessionToken) {
           if (!window.plugSDK || typeof window.plugSDK.init !== 'function') {
             console.error('[CX Agent] plugSDK is not available.');
             cxInitialized = false;
             return;
           }
-          // If a previous Plug instance exists (e.g. user logged out then in
-          // again as someone else without a page reload), tear it down first.
           if (window.plugSDK.isPlugInitialized) {
             try { window.plugSDK.shutdown(); } catch (e) {}
           }
           try {
-            // Client-side `identity` mode only supports user_ref + user_traits.
-            // account_ref / account_traits in this object cause the SDK's
-            // /internal/rev-users.identify call to return HTTP 400 — those
-            // belong to the server-side session_token flow, not this one.
             window.plugSDK.init({
               app_id: CX_APP_ID,
-              identity: {
-                user_ref: userRef,
-                user_traits: {
-                  email: userEmail,
-                  display_name: user.name
-                }
-              }
+              enable_default_launcher: false,
+              enable_session_recording: true,
+              session_token: sessionToken
             });
+            bindPlugEvents();
+            console.log('[CX Agent] plugSDK initialized for', userRef);
           } catch (err) {
             console.error('[CX Agent] plugSDK.init threw:', err);
             cxInitialized = false;
           }
         }
 
+        function createSessionTokenThenInit() {
+          fetch('https://api.devrev.ai/auth-tokens.create', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Authorization': CX_AAT,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              rev_info: {
+                user_ref: userRef,
+                account_ref: CX_ACCOUNT_REF
+              }
+            })
+          })
+            .then(function(response) {
+              if (!response.ok) {
+                return response.text().then(function(text) {
+                  throw new Error('auth-tokens.create ' + response.status + ': ' + text);
+                });
+              }
+              return response.json();
+            })
+            .then(function(data) {
+              if (!data || !data.access_token) {
+                throw new Error('auth-tokens.create returned no access_token');
+              }
+              initPlugWithSessionToken(data.access_token);
+            })
+            .catch(function(error) {
+              console.error('[CX Agent] session token error:', error);
+              cxInitialized = false;
+            });
+        }
+
+        function onPlugScriptReady() {
+          if (!window.plugSDK || typeof window.plugSDK.init !== 'function') {
+            console.error('[CX Agent] plugSDK is not available.');
+            cxInitialized = false;
+            return;
+          }
+          createSessionTokenThenInit();
+        }
+
         if (window.plugSDK && typeof window.plugSDK.init === 'function') {
-          // Script was loaded earlier in this page session — re-init only.
-          initPlug();
+          onPlugScriptReady();
           return;
         }
 
@@ -2361,7 +2832,7 @@
         var script = document.createElement('script');
         script.src = CX_PLUG_SRC;
         script.type = 'text/javascript';
-        script.onload = initPlug;
+        script.onload = onPlugScriptReady;
         script.onerror = function() {
           console.error('[CX Agent] failed to load plug.js');
           cxScriptLoaded = false;
@@ -2374,6 +2845,7 @@
       // varies between plugSDK versions, so try the common method names.
       function shutdownCxAgentWidget() {
         cxInitialized = false;
+        plugReady = false;
         if (!window.plugSDK) return;
         try {
           if (typeof window.plugSDK.shutdown === 'function') {
@@ -2399,22 +2871,71 @@
         errorEl.hidden = true;
       }
 
-      function openModal(rolesFilter) {
-        clearError();
-        lastFocus = document.activeElement;
+      var lastRolesFilter = null;
+
+      function showRoleListStep(rolesFilter) {
+        lastRolesFilter = rolesFilter || null;
         if (modalCard) {
+          modalCard.setAttribute('data-step', 'roles');
           if (rolesFilter) modalCard.setAttribute('data-roles', rolesFilter);
           else modalCard.removeAttribute('data-roles');
         }
+        if (credsPanel) credsPanel.hidden = true;
+        if (titleEl) titleEl.textContent = 'Sign in';
         if (subtitleEl) {
-          subtitleEl.textContent = rolesFilter === 'patient'
-            ? 'Log in as a Patient to use Chat.'
-            : 'Choose a role to continue.';
+          if (rolesFilter === 'patient') {
+            subtitleEl.textContent = 'Sign in to open Chat.';
+          } else if (rolesFilter === 'truecare-staff') {
+            subtitleEl.textContent = 'Choose TrueCare Support or Executive.';
+          } else if (rolesFilter === 'alliance-staff') {
+            subtitleEl.textContent = 'Choose Alliance Support or Executive.';
+          } else {
+            subtitleEl.textContent = 'Choose TrueCare Support, Alliance Support, or Executive.';
+          }
         }
+      }
+
+      function showCredsStep(roleKey) {
+        var user = ROLES[roleKey];
+        if (!user || user.role === 'patient') {
+          showError('Unknown role.');
+          return;
+        }
+        if (modalCard) {
+          modalCard.setAttribute('data-step', 'creds');
+          if (lastRolesFilter) modalCard.setAttribute('data-roles', lastRolesFilter);
+          else modalCard.removeAttribute('data-roles');
+        }
+        if (credsPanel) credsPanel.hidden = false;
+        if (emailValueEl) emailValueEl.textContent = user.email;
+        if (workspaceUrlEl) workspaceUrlEl.textContent = activeWorkspaceUrl;
+        if (authOtpLink) authOtpLink.href = otpUrl;
+        if (titleEl) titleEl.textContent = user.name;
+        if (subtitleEl) {
+          subtitleEl.textContent = 'Follow the steps below, then get your OTP.';
+        }
+        if (user.tab && typeof window.activatePocTab === 'function') {
+          window.activatePocTab(user.tab);
+        }
+      }
+
+      function openModal(rolesFilter, workspaceUrl) {
+        clearError();
+        lastFocus = document.activeElement;
+        if (workspaceUrl) setWorkspaceUrl(workspaceUrl);
+        showRoleListStep(rolesFilter);
         modal.hidden = false;
         document.body.style.overflow = 'hidden';
-        var selector = '.auth-role-btn' + (rolesFilter ? '[data-role="' + rolesFilter + '"]' : '');
-        var firstRole = roleList.querySelector(selector);
+        var firstRole = null;
+        if (rolesFilter === 'patient') {
+          firstRole = roleList.querySelector('.auth-role-btn[data-role="patient"]');
+        } else if (rolesFilter === 'truecare-staff') {
+          firstRole = roleList.querySelector('.auth-role-btn[data-role="truecare-support"]');
+        } else if (rolesFilter === 'alliance-staff') {
+          firstRole = roleList.querySelector('.auth-role-btn[data-role="alliance-support"]');
+        } else {
+          firstRole = roleList.querySelector('.auth-role-btn[data-role="truecare-support"]');
+        }
         setTimeout(function() {
           if (firstRole) firstRole.focus();
         }, 50);
@@ -2423,49 +2944,69 @@
       function closeModal() {
         modal.hidden = true;
         document.body.style.overflow = '';
-        if (modalCard) modalCard.removeAttribute('data-roles');
-        if (subtitleEl) subtitleEl.textContent = 'Choose a role to continue.';
+        showRoleListStep(null);
         if (lastFocus && typeof lastFocus.focus === 'function') {
           lastFocus.focus();
-        } else {
-          authBtn.focus();
         }
       }
 
       function loginAsRole(roleKey) {
-        var user = ROLES[roleKey];
-        if (!user) {
-          showError('Unknown role.');
+        clearError();
+        // Patient (CX Chat): one-tap local sign-in only — no email/OTP instructions.
+        // Staff (Launch Computer / Launch Support App) get instruction steps.
+        if (roleKey === 'patient') {
+          var user = ROLES.patient;
+          if (!user) {
+            showError('Unknown role.');
+            return;
+          }
+          var previous = getSession();
+          var session = {
+            email: user.email,
+            name: user.name,
+            role: user.role,
+            ts: Date.now()
+          };
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+          } catch (err) {}
+          if (previous && previous.role && previous.role !== user.role) {
+            location.reload();
+            return;
+          }
+          applyAuthState(session);
+          closeModal();
+          if (user.tab && typeof window.activatePocTab === 'function') {
+            window.activatePocTab(user.tab);
+          }
           return;
         }
-        var previous = getSession();
-        var session = {
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          ts: Date.now()
-        };
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
-        } catch (err) {}
-        if (previous && previous.role && previous.role !== user.role) {
-          location.reload();
-          return;
-        }
-        applyAuthState(session);
-        closeModal();
-        if (user.tab && typeof window.activatePocTab === 'function') {
-          window.activatePocTab(user.tab);
-        }
+        showCredsStep(roleKey);
       }
 
-      authBtn.addEventListener('click', function() {
-        if (document.body.getAttribute('data-auth') === 'true') {
-          logout();
-        } else {
-          openModal();
-        }
-      });
+      // Launch Computer → 3 staff roles + Computer URL
+      if (computerLaunch) {
+        computerLaunch.addEventListener('click', function(e) {
+          e.preventDefault();
+          openModal(null, COMPUTER_URL);
+        });
+      }
+
+      // TrueCare Support → TrueCare + Exec, workspace without /computer
+      if (truecareLaunch) {
+        truecareLaunch.addEventListener('click', function(e) {
+          e.preventDefault();
+          openModal('truecare-staff', SUPPORT_URL);
+        });
+      }
+
+      // Alliance Support → Alliance + Exec, workspace without /computer
+      if (allianceLaunch) {
+        allianceLaunch.addEventListener('click', function(e) {
+          e.preventDefault();
+          openModal('alliance-staff', SUPPORT_URL);
+        });
+      }
 
       roleList.addEventListener('click', function(e) {
         var btn = e.target.closest('[data-role]');
@@ -2473,23 +3014,62 @@
         loginAsRole(btn.getAttribute('data-role'));
       });
 
+      if (credsBack) {
+        credsBack.addEventListener('click', function() {
+          showRoleListStep(lastRolesFilter);
+          clearError();
+        });
+      }
+
+      if (emailBoxEl) {
+        emailBoxEl.addEventListener('click', function() {
+          copyEmailToClipboard();
+        });
+      }
+
+      if (workspaceBtn) {
+        workspaceBtn.addEventListener('click', function() {
+          copyWorkspaceToClipboard();
+        });
+      }
+
       if (cxBtn) {
         cxBtn.addEventListener('click', function(e) {
           e.preventDefault();
-          if (document.body.getAttribute('data-auth') === 'true') {
+          var session = getSession();
+          if (isPatientSession(session)) {
             logout();
           } else {
-            openModal();
+            openModal('patient');
           }
         });
       }
 
       if (chatBtn) {
-        chatBtn.addEventListener('click', function() {
+        chatBtn.addEventListener('click', function(e) {
+          e.preventDefault();
           var session = getSession();
-          if (session && session.role === 'patient') return;
-          openModal('patient');
+          if (!isPatientSession(session)) {
+            openModal('patient');
+            return;
+          }
+          if (document.body.getAttribute('data-plug-open') === 'true') {
+            closePlugInPhone();
+          } else {
+            openPlugInPhone();
+          }
         });
+      }
+
+      window.addEventListener('scroll', syncPlugToPhone, { passive: true });
+      window.addEventListener('resize', syncPlugToPhone);
+      if (typeof ResizeObserver !== 'undefined' && phoneScreen) {
+        new ResizeObserver(syncPlugToPhone).observe(phoneScreen);
+      }
+      if (typeof MutationObserver !== 'undefined') {
+        new MutationObserver(function() {
+          if (document.body.getAttribute('data-plug-open') === 'true') syncPlugToPhone();
+        }).observe(document.body, { childList: true, subtree: true });
       }
 
       closeBtn.addEventListener('click', closeModal);
