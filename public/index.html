@@ -937,7 +937,8 @@
 
         /* ── Testing tabs (Computer & CX Agent): Live panel cards ── */
         #computer,
-        #cx-agent {
+        #cx-agent,
+        #support-alliance {
             background: var(--yellow-faint);
         }
 
@@ -964,6 +965,50 @@
             flex-direction: column;
             grid-row: auto;
             grid-template-rows: none;
+        }
+
+        /* Left column: Live Demo stacked above a half-height Q&A card */
+        .tab-pair-left {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            min-height: 0;
+        }
+
+        .tab-pair-left > .live-panel-card,
+        .tab-pair-left > .qa-card {
+            flex: 1 1 0;
+            min-height: 0;
+        }
+
+        .tab-pair-left > .qa-card {
+            padding: 24px 28px;
+        }
+
+        .tab-pair-left > .qa-card .qa-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 14px;
+        }
+
+        .tab-pair-left > .qa-card .qa-card-list li {
+            font-size: 0.86rem;
+            padding: 8px 0 8px 24px;
+        }
+
+        .live-preview--placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f3f4f6;
+        }
+
+        .live-preview-placeholder {
+            color: #6b7280;
+            font-size: 0.88rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-align: center;
+            padding: 24px;
         }
 
         /* Lavender placeholder-question card */
@@ -1135,20 +1180,24 @@
             user-select: none;
         }
 
-        /* Chat tap target over the screenshot (Plug still opens from here) */
+        /* Chat tap target — sit just under Email, same inset as screenshot cards */
         .phone-chat-hotspot {
             position: absolute;
-            left: 5.2%;
-            right: 5.2%;
-            /* Above App Version + bottom tab bar in the screenshot */
-            bottom: 18.5%;
-            z-index: 2;
+            left: 5.5%;
+            right: 5.5%;
+            top: 53.5%;
+            bottom: auto;
+            width: auto;
+            max-width: none;
+            box-sizing: border-box;
+            z-index: 5;
             margin: 0;
             cursor: pointer;
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            pointer-events: auto;
         }
 
-        .phone-tabbar--spacer {
+        .phone-tabbar.phone-tabbar--spacer {
             position: absolute;
             left: 0;
             right: 0;
@@ -1160,6 +1209,7 @@
             background: transparent;
             pointer-events: none;
             z-index: 3;
+            display: block;
         }
 
         /* DevRev PLuG: hide floating launcher; chat panel is CSS-pinned into the phone screen */
@@ -1293,6 +1343,18 @@
         .help-icon--health { background: #fff6d6; color: #eab308; }
         .help-card strong { display: block; font-size: 0.94rem; font-weight: 700; color: #111; }
         .help-card span { display: block; font-size: 0.78rem; color: #8b9198; margin-top: 2px; }
+
+        /* After .help-card so width:100% does not stretch past the phone frame */
+        .help-card.phone-chat-hotspot {
+            left: 5.5%;
+            right: 5.5%;
+            top: 53.5%;
+            bottom: auto;
+            width: auto;
+            max-width: none;
+            box-sizing: border-box;
+            margin-bottom: 0;
+        }
         .phone-tabbar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1683,6 +1745,15 @@
                 grid-template-columns: 1fr;
                 row-gap: 24px;
             }
+
+            .tab-pair-left {
+                gap: 20px;
+            }
+
+            .tab-pair-left > .live-panel-card,
+            .tab-pair-left > .qa-card {
+                flex: none;
+            }
         }
 
         /* Phones: collapse the in-scope grid, restack the nav */
@@ -1885,15 +1956,9 @@
             </div>
             <div class="nav-tabs" role="tablist">
                 <button type="button" class="nav-tab" role="tab" data-tab="scope" aria-controls="scope" aria-selected="true">Scope</button>
+                <button type="button" class="nav-tab" role="tab" data-tab="cx-agent" aria-controls="cx-agent" aria-selected="false">Patient-facing Agent</button>
+                <button type="button" class="nav-tab" role="tab" data-tab="support-alliance" aria-controls="support-alliance" aria-selected="false">Support App</button>
                 <button type="button" class="nav-tab" role="tab" data-tab="computer" aria-controls="computer" aria-selected="false">Computer</button>
-                <button type="button" class="nav-tab" role="tab" data-tab="cx-agent" aria-controls="cx-agent" aria-selected="false">Portals and CX Agent</button>
-                <details class="nav-tab-menu">
-                    <summary class="nav-tab">Support App</summary>
-                    <div class="nav-tab-menu-panel">
-                        <button type="button" class="nav-tab" role="tab" data-tab="support-truecare" aria-controls="support-truecare" aria-selected="false">TrueCare Support</button>
-                        <button type="button" class="nav-tab" role="tab" data-tab="support-alliance" aria-controls="support-alliance" aria-selected="false">Alliance Support</button>
-                    </div>
-                </details>
                 <button type="button" class="nav-tab" role="tab" data-tab="timeline" aria-controls="timeline" aria-selected="false">Timeline</button>
             </div>
         </div>
@@ -1925,7 +1990,7 @@
                     <div class="section-label">Scope</div>
                     <h2>Problem Statement &amp; Scope of Work</h2>
                     <p class="section-subtitle">
-                        TrueCare patient app and Alliance provider platform three PoC use cases.
+                        TrueCare patient RPM chatbot, Alliance internal tickets, and Computer for executives.
                     </p>
                 </div>
 
@@ -1944,26 +2009,33 @@
                 <div class="in-scope-grid">
                     <div class="scope-card">
                         <div class="scope-card-label">Use Case 1</div>
-                        <h3>CX Agent — TrueCare patients</h3>
-                        <p>
-                            PLuG on the TrueCare Help screen (Chat). With visibilty to historical conversation and ticket status.
-                        </p>
+                        <h3>Patient-facing support chatbot in the RPM mobile app</h3>
+                        <ul class="card-criteria">
+                            <li>A dedicated Support tab inside the app with chat + a list of the patient's tickets/statuses</li>
+                            <li>Unregistered/commercial patients handled via an assigned identifier so their conversation history and tickets persist and repopulate on return</li>
+                            <li>Escalation to a human or ticket when the agent can't resolve, and the support person messaging the patient back through that tab</li>
+                        </ul>
                     </div>
 
                     <div class="scope-card">
                         <div class="scope-card-label">Use Case 2</div>
-                        <h3>Computer &amp; Agent Studio</h3>
-                        <p>
-                            Similar-ticket search and org knowledge for executives and support. Agent Studio as the AI platform to build automation and agents that share trusted answer everytime
-                        </p>
+                        <h3>Internal ticket system for the Alliance care-coordination platform</h3>
+                        <ul class="card-criteria">
+                            <li>User-error tier-1 tickets that can be escalated to development issues/changes</li>
+                            <li>Ticket reporting: per-user counts of tickets submitted this month</li>
+                            <li>Breakdown by level 1/2/3, resolved vs. pending</li>
+                            <li>Responses scoped by the user's access level</li>
+                        </ul>
                     </div>
 
                     <div class="scope-card">
                         <div class="scope-card-label">Use Case 3</div>
-                        <h3>Zoho replacement — Support</h3>
-                        <p>
-                            Support app for <strong>TrueCare</strong> and <strong>Alliance</strong> teams replace limited SaaS with a flexible AI based support solution that adapts to your business needs for better intake, routing, and resolution.
-                        </p>
+                        <h3>Computer for Executive</h3>
+                        <ul class="card-criteria">
+                            <li>Executive knowledge search across email and shared folders</li>
+                            <li>Keyword/contextual search over company drives for the exec team and directors</li>
+                            <li>Admin-level access to everything</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1986,6 +2058,8 @@
                         <ul class="qa-card-list">
                             <li>Bring me all the issues that are related</li>
                             <li>Summarize this patient’s vitals before the weekly CCM call <span class="pending-tag later">Later</span></li>
+                            <li>Search across email</li>
+                            <li>Search across shared folders in OneDrive</li>
                         </ul>
                     </div>
 
@@ -2017,7 +2091,7 @@
         <section class="section tab-panel" id="cx-agent" role="tabpanel" aria-labelledby="cx-agent">
             <div class="container">
                 <div class="section-header">
-                    <div class="section-label">CX Agent</div>
+                    <div class="section-label">Patient-facing Agent</div>
                     <h2>CX Agent for TrueCare patients</h2>
                     <p class="section-subtitle">
                         Help → Chat on the TrueCare app. Knowledge is the Omron / Bluetooth pairing guide (same script Hosway’s helpdesk uses on the phone).
@@ -2025,23 +2099,41 @@
                 </div>
 
                 <div class="tab-pair-grid">
-                    <div class="qa-card">
-                        <h3 class="qa-card-title">What can the CX Agent do for your customers?</h3>
-                        <ul class="qa-card-list">
-                            <li>How can I connect my Bluetooth blood pressure monitor to TrueCare?</li>
-                            <li>Which Omron devices does TrueCare support?</li>
-                            <li>Pairing is failing — I can’t sync my readings</li>
-                            <li>How do I pair Omron on iPhone vs Android in TrueCare (not the Omron app)?</li>
-                            <li>What are the common Bluetooth connection errors?</li>
-                        </ul>
+                    <div class="tab-pair-left">
+                        <div class="live-panel-card">
+                            <div class="live-panel-head">
+                                <div class="live-panel-label">Live Demo</div>
+                                <h3 class="live-panel-title">Support App for True Care</h3>
+                                <p class="live-panel-subtitle">
+                                    Open the Support app to manage conversations and tickets submitted by the patient-facing Agent
+                                </p>
+                            </div>
+                            <div class="live-preview live-preview--placeholder" aria-label="Support App screenshot placeholder">
+                                <div class="live-preview-placeholder">Screenshot coming soon</div>
+                            </div>
+                            <div class="live-panel-actions">
+                                <a class="live-panel-cta-link" href="#" id="truecare-launch" role="button">Launch Support App</a>
+                            </div>
+                        </div>
+
+                        <div class="qa-card">
+                            <h3 class="qa-card-title">What can the CX Agent do for your customers?</h3>
+                            <ul class="qa-card-list">
+                                <li>How can I connect my Bluetooth blood pressure monitor to TrueCare?</li>
+                                <li>Which Omron devices does TrueCare support?</li>
+                                <li>Pairing is failing — I can’t sync my readings</li>
+                                <li>How do I pair Omron on iPhone vs Android in TrueCare (not the Omron app)?</li>
+                                <li>What are the common Bluetooth connection errors?</li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="live-panel-card">
                         <div class="live-panel-head">
                             <div class="live-panel-label">TrueCare App</div>
-                            <h3 class="live-panel-title">Help / Support</h3>
+                            <h3 class="live-panel-title">Patient-facing support chatbot</h3>
                             <p class="live-panel-subtitle">
-                                Patient Help screen. Sign in as a patient, then tap Chat — PLuG opens inside this phone frame (no floating icon).
+                                Handle patient problems and requests in the RPM mobile app by knowledge deflection and in-app support.
                             </p>
                         </div>
                         <div class="live-preview live-preview--phone">
@@ -2122,61 +2214,14 @@
             </div>
         </section>
 
-        <!-- TrueCare Support panel -->
-        <section class="section tab-panel" id="support-truecare" role="tabpanel" aria-labelledby="support-truecare">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-label">Support</div>
-                    <h2>TrueCare Support</h2>
-                    <p class="section-subtitle">
-                        Internal TrueCare Support.
-                    </p>
-                </div>
-
-                <div class="tab-pair-grid">
-                    <div class="qa-card">
-                        <h3 class="qa-card-title">What can Computer do for your Support team?</h3>
-                        <ul class="qa-card-list">
-                            <li>Patient called: cannot connect Omron device — walk me through the script</li>
-                            <li>Which Omron models do we support?</li>
-                            <li>Bring me all similar tickets</li>
-                            <li>What are the common errors connecting a Bluetooth BP monitor to TrueCare?</li>
-                            <li>How did the team solve this issue in the past?</li>
-                        </ul>
-                    </div>
-
-                    <div class="live-panel-card">
-                        <div class="live-panel-head">
-                            <div class="live-panel-label">Live Demo</div>
-                            <h3 class="live-panel-title">Try Support App Live</h3>
-                            <p class="live-panel-subtitle">
-                                Open the Support app on the serenehealth-poc workspace.
-                            </p>
-                        </div>
-                        <div class="live-preview">
-                            <iframe
-                                src="https://www.youtube.com/embed/meER9aI2zVI?si=ZLB8bRx8ZRmJWM6S"
-                                title="Try Support App Live"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                allowfullscreen></iframe>
-                        </div>
-                        <div class="live-panel-actions">
-                            <a class="live-panel-cta-link" href="#" id="truecare-launch" role="button">Launch Support App</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Alliance Support panel -->
         <section class="section tab-panel" id="support-alliance" role="tabpanel" aria-labelledby="support-alliance">
             <div class="container">
                 <div class="section-header">
-                    <div class="section-label">Support</div>
+                    <div class="section-label">Support App</div>
                     <h2>Alliance Support</h2>
                     <p class="section-subtitle">
-                        Alliance Internal Support.
+                        Internal ticket system for the Alliance care-coordination platform
                     </p>
                 </div>
 
@@ -2184,11 +2229,11 @@
                     <div class="qa-card">
                         <h3 class="qa-card-title">What can Computer do for your Support team?</h3>
                         <ul class="qa-card-list">
-                            <li>Health Cloud chart is missing medications after the hospital EHR update <span class="pending-tag from-product">From product</span></li>
-                            <li>Custom HEDIS / RAF / MACRA measures don’t match our health-system goals <span class="pending-tag from-product">From product</span></li>
-                            <li>Sample question 3 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 4 <span class="pending-tag">Pending</span></li>
-                            <li>Sample question 5 <span class="pending-tag">Pending</span></li>
+                            <li>User-error tier-1 tickets that can be escalated to development issues/changes</li>
+                            <li>Ticket reporting: per-user counts of tickets submitted this month</li>
+                            <li>Breakdown by level 1/2/3</li>
+                            <li>Resolved vs. pending status</li>
+                            <li>Responses scoped by the user's access level</li>
                         </ul>
                     </div>
 
@@ -2345,26 +2390,22 @@
     (function() {
       var tabs = document.querySelectorAll('.nav-tab[data-tab]');
       var panels = document.querySelectorAll('.tab-panel');
-      var supportMenu = document.querySelector('details.nav-tab-menu');
       var validIds = Array.prototype.map.call(tabs, function(t) { return t.dataset.tab; });
+      var legacyTabMap = {
+        'support-truecare': 'cx-agent',
+        'portals-and-cx-agent': 'cx-agent'
+      };
 
       function activate(id, opts) {
         opts = opts || {};
+        if (legacyTabMap[id]) id = legacyTabMap[id];
         if (validIds.indexOf(id) === -1) id = validIds[0];
-        var supportActive = id === 'support-truecare' || id === 'support-alliance';
 
         tabs.forEach(function(t) {
           var isActive = t.dataset.tab === id;
           t.classList.toggle('active', isActive);
           t.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
-
-        if (supportMenu) {
-          supportMenu.classList.toggle('is-current', supportActive);
-          var summary = supportMenu.querySelector('summary');
-          if (summary) summary.classList.toggle('active', supportActive);
-          if (supportActive) supportMenu.open = false;
-        }
 
         panels.forEach(function(p) {
           p.classList.toggle('active', p.id === id);
@@ -2382,12 +2423,6 @@
         t.addEventListener('click', function() {
           activate(t.dataset.tab);
         });
-      });
-
-      document.addEventListener('click', function(e) {
-        if (supportMenu && supportMenu.open && !supportMenu.contains(e.target)) {
-          supportMenu.open = false;
-        }
       });
 
       window.addEventListener('hashchange', function() {
@@ -2473,7 +2508,7 @@
           email: 'support-true-care@connectadevrev.work',
           name: 'TrueCare Support',
           role: 'truecare-support',
-          tab: 'support-truecare'
+          tab: 'cx-agent'
         },
         'alliance-support': {
           email: 'support-alliancehie@connectadevrev.work',
@@ -2503,6 +2538,9 @@
       var cxScriptLoaded = false;
       var cxInitialized  = false;
       var plugReady      = false;
+      var pendingPlugOpen = false;
+      var openPlugAfterAuth = false;
+      var plugOpenTimer = null;
 
       var modal         = document.getElementById('auth-modal');
       var closeBtn      = document.getElementById('auth-modal-close');
@@ -2706,29 +2744,71 @@
       }
 
       function openPlugInPhone() {
-        if (!window.plugSDK || typeof window.plugSDK.toggleWidget !== 'function') {
-          console.error('[CX Agent] plugSDK.toggleWidget is not available yet.');
-          return;
+        pendingPlugOpen = true;
+        if (plugOpenTimer) {
+          clearInterval(plugOpenTimer);
+          plugOpenTimer = null;
         }
-        try { window.plugSDK.toggleWidget(true); } catch (e) {
-          console.error('[CX Agent] toggleWidget failed:', e);
-        }
-        var tries = 0;
-        var timer = setInterval(function() {
-          tries += 1;
-          var iframe = findPlugWidgetIframe();
-          var open = window.plugSDK && window.plugSDK.isWidgetOpen;
-          if (iframe && (open || tries >= 4)) {
-            setPlugOpen(true);
-            clearInterval(timer);
-          } else if (tries >= 40) {
-            clearInterval(timer);
-            console.error('[CX Agent] widget iframe never appeared.');
+
+        var waitTries = 0;
+        function attemptToggle() {
+          if (!pendingPlugOpen) return false;
+          if (!window.plugSDK || typeof window.plugSDK.toggleWidget !== 'function') {
+            return false;
           }
-        }, 50);
+          try {
+            window.plugSDK.toggleWidget(true);
+          } catch (e) {
+            console.error('[CX Agent] toggleWidget failed:', e);
+            return false;
+          }
+
+          var appearTries = 0;
+          if (plugOpenTimer) clearInterval(plugOpenTimer);
+          plugOpenTimer = setInterval(function() {
+            appearTries += 1;
+            var iframe = findPlugWidgetIframe();
+            var open = window.plugSDK && window.plugSDK.isWidgetOpen;
+            if (iframe && (open || appearTries >= 4 || plugReady)) {
+              pendingPlugOpen = false;
+              setPlugOpen(true);
+              clearInterval(plugOpenTimer);
+              plugOpenTimer = null;
+            } else if (appearTries >= 60) {
+              clearInterval(plugOpenTimer);
+              plugOpenTimer = null;
+              pendingPlugOpen = false;
+              console.error('[CX Agent] widget iframe never appeared.');
+            }
+          }, 50);
+          return true;
+        }
+
+        if (attemptToggle()) return;
+
+        // Plug still booting after patient sign-in — retry briefly instead of silent no-op
+        plugOpenTimer = setInterval(function() {
+          waitTries += 1;
+          if (attemptToggle() || waitTries >= 80) {
+            if (waitTries >= 80 && pendingPlugOpen) {
+              console.error('[CX Agent] plugSDK.toggleWidget is not available yet.');
+              pendingPlugOpen = false;
+            }
+            if (waitTries >= 80) {
+              clearInterval(plugOpenTimer);
+              plugOpenTimer = null;
+            }
+          }
+        }, 100);
       }
 
       function closePlugInPhone() {
+        pendingPlugOpen = false;
+        openPlugAfterAuth = false;
+        if (plugOpenTimer) {
+          clearInterval(plugOpenTimer);
+          plugOpenTimer = null;
+        }
         if (window.plugSDK && typeof window.plugSDK.toggleWidget === 'function') {
           try { window.plugSDK.toggleWidget(false); } catch (e) {}
         }
@@ -2790,7 +2870,12 @@
             if (payload.type === 'ON_PLUG_WIDGET_READY') {
               plugReady = true;
               syncPlugToPhone();
+              if (pendingPlugOpen || openPlugAfterAuth) {
+                openPlugAfterAuth = false;
+                openPlugInPhone();
+              }
             } else if (payload.type === 'ON_PLUG_WIDGET_OPENED') {
+              pendingPlugOpen = false;
               setPlugOpen(true);
             } else if (payload.type === 'ON_PLUG_WIDGET_CLOSED') {
               setPlugOpen(false);
@@ -2989,6 +3074,10 @@
         modal.hidden = true;
         document.body.style.overflow = '';
         showRoleListStep(null);
+        // Only keep auto-open intent if patient just signed in (handled in loginAsRole)
+        if (!isPatientSession(getSession())) {
+          openPlugAfterAuth = false;
+        }
         if (lastFocus && typeof lastFocus.focus === 'function') {
           lastFocus.focus();
         }
@@ -3022,6 +3111,10 @@
           closeModal();
           if (user.tab && typeof window.activatePocTab === 'function') {
             window.activatePocTab(user.tab);
+          }
+          if (openPlugAfterAuth) {
+            pendingPlugOpen = true;
+            openPlugInPhone();
           }
           return;
         }
@@ -3092,8 +3185,10 @@
       if (chatBtn) {
         chatBtn.addEventListener('click', function(e) {
           e.preventDefault();
+          e.stopPropagation();
           var session = getSession();
           if (!isPatientSession(session)) {
+            openPlugAfterAuth = true;
             openModal('patient');
             return;
           }
